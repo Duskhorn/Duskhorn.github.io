@@ -1,5 +1,5 @@
-from times import now
+from times import getDateStr
 import dom
 
 let date = document.getElementById("date")
-date.innerHTML = cstring($now())
+date.innerHTML = cstring(getDateStr())
