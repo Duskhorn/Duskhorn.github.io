@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-11-18 Fri 12:20 -->
+<!-- 2022-11-18 Fri 12:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Homotopy Type Theory notes</title>
@@ -222,18 +222,18 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org008cf2b">1. Foundations</a>
+<li><a href="#org2ec3fad">1. Foundations</a>
 <ul>
-<li><a href="#org8d2eee6">1.1. Type Theory</a>
+<li><a href="#org7f99ad2">1.1. Type Theory</a>
 <ul>
-<li><a href="#org10bce61">1.1.1. Elementary concepts</a></li>
-<li><a href="#org4842c6c">1.1.2. Basic types</a></li>
-<li><a href="#org3570141">1.1.3. Function types</a></li>
-<li><a href="#orgf7af40e">1.1.4. <span class="todo TODO">TODO</span> Dependent function types</a></li>
-<li><a href="#orgb160af7">1.1.5. <span class="todo TODO">TODO</span> Product types</a></li>
-<li><a href="#org1b54d44">1.1.6. <span class="todo TODO">TODO</span> Dependent product types</a></li>
-<li><a href="#org2a59fcc">1.1.7. <span class="todo TODO">TODO</span> Coproduct types</a></li>
-<li><a href="#org0ec76b8">1.1.8. <span class="todo TODO">TODO</span> The type of booleans</a></li>
+<li><a href="#org62a4eab">1.1.1. Elementary concepts</a></li>
+<li><a href="#orgd3fa110">1.1.2. Basic types</a></li>
+<li><a href="#org780a496">1.1.3. Function types</a></li>
+<li><a href="#org5d18d37">1.1.4. Dependent function types</a></li>
+<li><a href="#orgd9443e6">1.1.5. <span class="todo TODO">TODO</span> Product types</a></li>
+<li><a href="#orga89767d">1.1.6. <span class="todo TODO">TODO</span> Dependent product types</a></li>
+<li><a href="#orge6bae8b">1.1.7. <span class="todo TODO">TODO</span> Coproduct types</a></li>
+<li><a href="#org1858ca6">1.1.8. <span class="todo TODO">TODO</span> The type of booleans</a></li>
 </ul>
 </li>
 </ul>
@@ -245,16 +245,16 @@
 Notes taken by me and from the HTT book. It's not complete and it'll never be. I currently don't understand more than 55% of the book
 </p>
 
-<div id="outline-container-org008cf2b" class="outline-2">
-<h2 id="org008cf2b"><span class="section-number-2">1.</span> Foundations</h2>
+<div id="outline-container-org2ec3fad" class="outline-2">
+<h2 id="org2ec3fad"><span class="section-number-2">1.</span> Foundations</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org8d2eee6" class="outline-3">
-<h3 id="org8d2eee6"><span class="section-number-3">1.1.</span> Type Theory</h3>
+<div id="outline-container-org7f99ad2" class="outline-3">
+<h3 id="org7f99ad2"><span class="section-number-3">1.1.</span> Type Theory</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-org10bce61" class="outline-4">
-<h4 id="org10bce61"><span class="section-number-4">1.1.1.</span> Elementary concepts</h4>
+<div id="outline-container-org62a4eab" class="outline-4">
+<h4 id="org62a4eab"><span class="section-number-4">1.1.1.</span> Elementary concepts</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -300,8 +300,8 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 </div>
 </div>
 
-<div id="outline-container-org4842c6c" class="outline-4">
-<h4 id="org4842c6c"><span class="section-number-4">1.1.2.</span> Basic types</h4>
+<div id="outline-container-orgd3fa110" class="outline-4">
+<h4 id="orgd3fa110"><span class="section-number-4">1.1.2.</span> Basic types</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -325,7 +325,7 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 
 <tr>
 <td class="org-left">Dependent function</td>
-<td class="org-left">\(\Pi_{x:A}B(x)\)</td>
+<td class="org-left">\(\Pi_{(x:A)}B(x)\)</td>
 </tr>
 
 <tr>
@@ -335,7 +335,7 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 
 <tr>
 <td class="org-left">Dependent product</td>
-<td class="org-left">\(\Sigma_{x:A}B(x)\)</td>
+<td class="org-left">\(\Sigma_{(x:A)}B(x)\)</td>
 </tr>
 
 <tr>
@@ -344,10 +344,37 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 </tr>
 </tbody>
 </table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Notation</th>
+<th scope="col" class="org-left">Definiton</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">$B: A &rarr; \mathcal{U}</td>
+<td class="org-left">B is called a family of types</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="outline-container-org3570141" class="outline-4">
-<h4 id="org3570141"><span class="section-number-4">1.1.3.</span> Function types</h4>
+<div id="outline-container-org780a496" class="outline-4">
+<h4 id="org780a496"><span class="section-number-4">1.1.3.</span> Function types</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <p>
 It's a primitive type, unlike set theory. You can apply a function \(f:A \rightarrow B\) on an element \(a: a\) to get an element \(b: B\).
@@ -355,7 +382,7 @@ They can be constructed both by direct definition and $&lambda;$-abstraction
 </p>
 </div>
 <ol class="org-ol">
-<li><a id="org23e8d39"></a>Uniqueness principle<br />
+<li><a id="org4fd54a7"></a>Uniqueness principle<br />
 <div class="outline-text-5" id="text-1-1-3-1">
 <p>
 Let \(f: A\rightarrow B\), \(\Phi\) is the "function body", then
@@ -363,37 +390,45 @@ Let \(f: A\rightarrow B\), \(\Phi\) is the "function body", then
 </p>
 </div>
 </li>
-<li><a id="org20a3cc5"></a>Currying<br />
+<li><a id="org3b6aff8"></a>Currying<br />
 <div class="outline-text-5" id="text-1-1-3-2">
 <p>
-\[ f: a \times B \rightarrow C \simeq f : A \rightarrow B \rightarrow C\]
+\[ f: a \times B \rightarrow C \equiv f : A \rightarrow B \rightarrow C\]
 </p>
 </div>
 </li>
 </ol>
 </div>
 
-<div id="outline-container-orgf7af40e" class="outline-4">
-<h4 id="orgf7af40e"><span class="section-number-4">1.1.4.</span> <span class="todo TODO">TODO</span> Dependent function types</h4>
+<div id="outline-container-org5d18d37" class="outline-4">
+<h4 id="org5d18d37"><span class="section-number-4">1.1.4.</span> Dependent function types</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+Given  a type $A: \mathcal{U} and a family of types \(B: A \rightarrow\mathcal{U}\), the type of dependent functions may be constructed
+\[\Sigma_{(x:A)}B(x)\]
+If B is a constant family this becomes the ordinary function type
+\[\Sigma_{(x:A)}B \equiv A \rightarrow B\]
+</p>
 </div>
-<div id="outline-container-orgb160af7" class="outline-4">
-<h4 id="orgb160af7"><span class="section-number-4">1.1.5.</span> <span class="todo TODO">TODO</span> Product types</h4>
 </div>
-<div id="outline-container-org1b54d44" class="outline-4">
-<h4 id="org1b54d44"><span class="section-number-4">1.1.6.</span> <span class="todo TODO">TODO</span> Dependent product types</h4>
+<div id="outline-container-orgd9443e6" class="outline-4">
+<h4 id="orgd9443e6"><span class="section-number-4">1.1.5.</span> <span class="todo TODO">TODO</span> Product types</h4>
 </div>
-<div id="outline-container-org2a59fcc" class="outline-4">
-<h4 id="org2a59fcc"><span class="section-number-4">1.1.7.</span> <span class="todo TODO">TODO</span> Coproduct types</h4>
+<div id="outline-container-orga89767d" class="outline-4">
+<h4 id="orga89767d"><span class="section-number-4">1.1.6.</span> <span class="todo TODO">TODO</span> Dependent product types</h4>
 </div>
-<div id="outline-container-org0ec76b8" class="outline-4">
-<h4 id="org0ec76b8"><span class="section-number-4">1.1.8.</span> <span class="todo TODO">TODO</span> The type of booleans</h4>
+<div id="outline-container-orge6bae8b" class="outline-4">
+<h4 id="orge6bae8b"><span class="section-number-4">1.1.7.</span> <span class="todo TODO">TODO</span> Coproduct types</h4>
+</div>
+<div id="outline-container-org1858ca6" class="outline-4">
+<h4 id="org1858ca6"><span class="section-number-4">1.1.8.</span> <span class="todo TODO">TODO</span> The type of booleans</h4>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Duskhorn</p>
-<p class="date">Created: 2022-11-18 Fri 12:20</p>
+<p class="date">Created: 2022-11-18 Fri 12:27</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
