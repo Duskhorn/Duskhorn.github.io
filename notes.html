@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-11-18 Fri 12:27 -->
+<!-- 2022-11-21 Mon 18:02 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Homotopy Type Theory notes</title>
@@ -222,18 +222,40 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9d18fb9">1. Foundations</a>
+<li><a href="#org4325c6b">1. Foundations</a></li>
+<li><a href="#org1c3114e">2. Type Theory</a>
 <ul>
-<li><a href="#org3482bb8">1.1. Type Theory</a>
+<li><a href="#org403e356">2.1. Elementary concepts</a></li>
+<li><a href="#org982e843">2.2. Basic types</a>
 <ul>
-<li><a href="#org607b233">1.1.1. Elementary concepts</a></li>
-<li><a href="#org77a201d">1.1.2. Basic types</a></li>
-<li><a href="#org8b1fecb">1.1.3. Function types</a></li>
-<li><a href="#org0601d45">1.1.4. Dependent function types</a></li>
-<li><a href="#org3fc1555">1.1.5. <span class="todo TODO">TODO</span> Product types</a></li>
-<li><a href="#orgf8ef065">1.1.6. <span class="todo TODO">TODO</span> Dependent product types</a></li>
-<li><a href="#orgbdad1f7">1.1.7. <span class="todo TODO">TODO</span> Coproduct types</a></li>
-<li><a href="#org7e5c627">1.1.8. <span class="todo TODO">TODO</span> The type of booleans</a></li>
+<li><a href="#org3f3f11a">2.2.1. Useful definitons</a></li>
+</ul>
+</li>
+<li><a href="#orgcfa27e6">2.3. Function types</a>
+<ul>
+<li><a href="#org35a81b7">2.3.1. Uniqueness principle</a></li>
+</ul>
+</li>
+<li><a href="#org22b663d">2.4. Dependent function types</a>
+<ul>
+<li><a href="#orgaeb3123">2.4.1. Uniqueness principle</a></li>
+<li><a href="#org16de735">2.4.2. Polymorphic functions</a></li>
+</ul>
+</li>
+<li><a href="#org860899e">2.5. Product types</a>
+<ul>
+<li><a href="#orgc045f42">2.5.1. Currying</a></li>
+<li><a href="#org8f76d61">2.5.2. Recursion principle and projections</a></li>
+<li><a href="#org1fe595f">2.5.3. <span class="todo TODO">TODO</span> Uniqueness principle</a></li>
+</ul>
+</li>
+<li><a href="#orgfbc001d">2.6. <span class="todo TODO">TODO</span> Dependent product types</a></li>
+<li><a href="#org10b651a">2.7. <span class="todo TODO">TODO</span> Coproduct types</a></li>
+<li><a href="#orgafb1fea">2.8. <span class="todo TODO">TODO</span> \(\Bool\), the type of booleans</a></li>
+<li><a href="#orgbd5888b">2.9. <span class="todo TODO">TODO</span> How to study a type in Type theory</a>
+<ul>
+<li><a href="#orgf857cf8">2.9.1. How to define a new type</a></li>
+<li><a href="#org0f3ac23">2.9.2. Objects of interest</a></li>
 </ul>
 </li>
 </ul>
@@ -245,17 +267,16 @@
 Notes taken by me and from the HTT book. It's not complete and it'll never be. I currently don't understand more than 55% of the book
 </p>
 
-<div id="outline-container-org9d18fb9" class="outline-2">
-<h2 id="org9d18fb9"><span class="section-number-2">1.</span> Foundations</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-org4325c6b" class="outline-2">
+<h2 id="org4325c6b"><span class="section-number-2">1.</span> Foundations</h2>
 </div>
-<div id="outline-container-org3482bb8" class="outline-3">
-<h3 id="org3482bb8"><span class="section-number-3">1.1.</span> Type Theory</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-org1c3114e" class="outline-2">
+<h2 id="org1c3114e"><span class="section-number-2">2.</span> Type Theory</h2>
+<div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org607b233" class="outline-4">
-<h4 id="org607b233"><span class="section-number-4">1.1.1.</span> Elementary concepts</h4>
-<div class="outline-text-4" id="text-1-1-1">
+<div id="outline-container-org403e356" class="outline-3">
+<h3 id="org403e356"><span class="section-number-3">2.1.</span> Elementary concepts</h3>
+<div class="outline-text-3" id="text-2-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -282,12 +303,12 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 </tr>
 
 <tr>
-<td class="org-left">\(\mathcal{U}_i\)</td>
+<td class="org-left">\(\U_i\)</td>
 <td class="org-left">Universe</td>
 </tr>
 
 <tr>
-<td class="org-left">$\mathcal{U}<sub>0</sub> : \mathcal{U}<sub>1</sub> : \mathcal{U}<sub>2</sub> : &#x2026;$</td>
+<td class="org-left">\(\U_0 : \U_1 :\dots : \U_n\)</td>
 <td class="org-left">Hierarchy of universes</td>
 </tr>
 
@@ -300,9 +321,9 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 </div>
 </div>
 
-<div id="outline-container-org77a201d" class="outline-4">
-<h4 id="org77a201d"><span class="section-number-4">1.1.2.</span> Basic types</h4>
-<div class="outline-text-4" id="text-1-1-2">
+<div id="outline-container-org982e843" class="outline-3">
+<h3 id="org982e843"><span class="section-number-3">2.2.</span> Basic types</h3>
+<div class="outline-text-3" id="text-2-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -320,22 +341,22 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 <tbody>
 <tr>
 <td class="org-left">Function</td>
-<td class="org-left">\(A \rightarrow B\)</td>
+<td class="org-left">\(f: A \fun B\)</td>
 </tr>
 
 <tr>
 <td class="org-left">Dependent function</td>
-<td class="org-left">\(\Pi_{(x:A)}B(x)\)</td>
+<td class="org-left">\(g: \Pi_{(x:A)}B(x)\)</td>
 </tr>
 
 <tr>
 <td class="org-left">Product</td>
-<td class="org-left">\(A \times B\)</td>
+<td class="org-left">\((a,b) : A \times B\)</td>
 </tr>
 
 <tr>
 <td class="org-left">Dependent product</td>
-<td class="org-left">\(\Sigma_{(x:A)}B(x)\)</td>
+<td class="org-left">\((p,q) : \Sigma_{(x:A)}B(x)\)</td>
 </tr>
 
 <tr>
@@ -344,7 +365,11 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 </tr>
 </tbody>
 </table>
+</div>
 
+<div id="outline-container-org3f3f11a" class="outline-4">
+<h4 id="org3f3f11a"><span class="section-number-4">2.2.1.</span> Useful definitons</h4>
+<div class="outline-text-4" id="text-2-2-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -361,74 +386,233 @@ Notes taken by me and from the HTT book. It's not complete and it'll never be. I
 </thead>
 <tbody>
 <tr>
-<td class="org-left">$B: A &rarr; \mathcal{U}</td>
+<td class="org-left">\(B: A \fun \U\)</td>
 <td class="org-left">B is called a family of types</td>
 </tr>
 
 <tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">\(\Unit : \U\)</td>
+<td class="org-left">Unit type; type with one inhabitant</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\Empty : \U\)</td>
+<td class="org-left">Empty type; type with no inhabitants</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\star : \Unit\)</td>
+<td class="org-left">The only element of \(\Unit\)</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="outline-container-org8b1fecb" class="outline-4">
-<h4 id="org8b1fecb"><span class="section-number-4">1.1.3.</span> Function types</h4>
-<div class="outline-text-4" id="text-1-1-3">
+</div>
+<div id="outline-container-orgcfa27e6" class="outline-3">
+<h3 id="orgcfa27e6"><span class="section-number-3">2.3.</span> Function types</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
-It's a primitive type, unlike set theory. You can apply a function \(f:A \rightarrow B\) on an element \(a: a\) to get an element \(b: B\).
-They can be constructed both by direct definition and $&lambda;$-abstraction
+It's a primitive type, unlike set theory.
+You can apply a function \(f:A \fun B\) on an element \(a: A\) to get an element \(b: B\).
+They can be constructed both by direct definition and \(\lambda -\) abstraction
 </p>
+</div>
+<div id="outline-container-org35a81b7" class="outline-4">
+<h4 id="org35a81b7"><span class="section-number-4">2.3.1.</span> Uniqueness principle</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+Let \(f: A\fun B\) and \(\Phi : B\) (the "function body"), then
+\[f(x) :\equiv \Phi \equiv f :\equiv\lambda x.\Phi \]
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org22b663d" class="outline-3">
+<h3 id="org22b663d"><span class="section-number-3">2.4.</span> Dependent function types</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Given  a type \(A: \U\) and a family of types \(B: A \fun\U\), the type of dependent functions may be constructed
+\[\Pi_{(x:A)}B(x)\]
+If B is a constant family this becomes the ordinary function type
+\[\Pi_{(x:A)}B \equiv A \fun B\]
+</p>
+
+<p>
+We may apply a dependent function \(f : \Pi_{(x:A)}B(x)\) to an argument \(a: A\) to obtain an element \(f(a) : B(a)\).
+</p>
+</div>
+<div id="outline-container-orgaeb3123" class="outline-4">
+<h4 id="orgaeb3123"><span class="section-number-4">2.4.1.</span> Uniqueness principle</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+The uniqueness principle is analogue to the not dependent function type, with the difference that \(\Phi : B(x)\) possibly involves the variable \(x: A\).
+</p>
+</div>
+</div>
+<div id="outline-container-org16de735" class="outline-4">
+<h4 id="org16de735"><span class="section-number-4">2.4.2.</span> Polymorphic functions</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+A polymorphic function is one that takes a type as one of its arguments and then acts on elements of that type. Examples are:
+</p>
+
+<ol class="org-ol">
+<li>The identity function :: \(id \Pi_{(A: \U)} A \leftarrow A\) such that \(id(A,x) :\equiv x\). It's also written as \(id_A(x)\).</li>
+<li>The \(swap\) function :: \(swap : \Pi_{(A:\U)}\Pi_{(B:\U)}\Pi_{(C:\U)} \right(A \leftarrow B \leftarrow C\left) \leftarrow \left(B \leftarrow A \leftarrow C\right)\) such that \(swap(A,B,C,g) :\equiv \lambda a.\lambda b.g(b)(a)\), also written as \(swap_{A,B,C}(g)(a,b) :\equiv g(b,a)\).</li>
+</ol>
+
+<p>
+If a multiparameter dependent function consists of independent elements of the same type, one may also write them in a condensed form. In the example of the \(swap\) function, one may write \(\Pi_{(A,B,C:\U)}\) since \(A,B,C\) do not depend on eachother.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org860899e" class="outline-3">
+<h3 id="org860899e"><span class="section-number-3">2.5.</span> Product types</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Informally, this is the type of pairs. In type theory this is a primitive concept, unlike set theory.
+It comes with two functions called <span class="underline">projections</span>:
+\[pr_1(a,b) :\equiv a\]
+\[pr_2(a,b) :\equiv b\]
+</p>
+</div>
+<div id="outline-container-orgc045f42" class="outline-4">
+<h4 id="orgc045f42"><span class="section-number-4">2.5.1.</span> Currying</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+Given \((a,b): A\times B\) and \(g: A \fun B \fun C\) one can always define a function \(f : A \fun B \fun C\) such that
+\[f((a,b)) :\equiv g(a)(b)\]
+</p>
+</div>
+</div>
+<div id="outline-container-org8f76d61" class="outline-4">
+<h4 id="org8f76d61"><span class="section-number-4">2.5.2.</span> Recursion principle and projections</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<p>
+You can define a function called <span class="underline">recursor</span> for product types
+\[rec_{A\times B}:\left(A \fun B \fun C \right) \fun A \times B \fun  C\]
+such function can be used to  define the two projections
+\[pr_1 :\equiv rec_{A\times B}(A, \lambda a.\lambda b. a)\]
+\[pr_2 :\equiv rec_{A\times B}(B, \lambda a.\lambda b. b)\]
+On the contrary, one could define the recursor from the two projections
+</p>
+</div>
+</div>
+<div id="outline-container-org1fe595f" class="outline-4">
+<h4 id="org1fe595f"><span class="section-number-4">2.5.3.</span> <span class="todo TODO">TODO</span> Uniqueness principle</h4>
+</div>
+</div>
+<div id="outline-container-orgfbc001d" class="outline-3">
+<h3 id="orgfbc001d"><span class="section-number-3">2.6.</span> <span class="todo TODO">TODO</span> Dependent product types</h3>
+</div>
+<div id="outline-container-org10b651a" class="outline-3">
+<h3 id="org10b651a"><span class="section-number-3">2.7.</span> <span class="todo TODO">TODO</span> Coproduct types</h3>
+</div>
+<div id="outline-container-orgafb1fea" class="outline-3">
+<h3 id="orgafb1fea"><span class="section-number-3">2.8.</span> <span class="todo TODO">TODO</span> \(\Bool\), the type of booleans</h3>
+</div>
+<div id="outline-container-orgbd5888b" class="outline-3">
+<h3 id="orgbd5888b"><span class="section-number-3">2.9.</span> <span class="todo TODO">TODO</span> How to study a type in Type theory</h3>
+<div class="outline-text-3" id="text-2-9">
+</div>
+<div id="outline-container-orgf857cf8" class="outline-4">
+<h4 id="orgf857cf8"><span class="section-number-4">2.9.1.</span> How to define a new type</h4>
+<div class="outline-text-4" id="text-2-9-1">
+<p>
+In order to introduce a new type, one needs to provide the following:
+</p>
+<dl class="org-dl">
+<dt><b>Formation rules</b></dt><dd>How to form the new types;</dd>
+<dt><b>Construction rules</b></dt><dd>How to form <i>elements</i> of the new type; these are called <i>constructors</i> or <i>intrduction rules</i>;</dd>
+<dt><b>Elimination rules</b> (or <b>eliminators</b>)</dt><dd>How to use elements of that type;</dd>
+<dt><b>Computation rule</b></dt><dd>How an eliminator acts on a constructor;</dd>
+<dt>(Optional) <b>Uniqueness principle</b></dt><dd>It may be proved from the rules above, thus it's optional. Expresses uniqueness of maps from or to that type:
+<dl class="org-dl">
+<dt>Maps "going into" the type</dt><dd>Every element of the type is uniquely determined by the results when applying eliminators to it; moreover every element can be reconstructed from the results by applying a constructor. Essentially, there's a <span class="underline">constructor-eliminator duality</span>.</dd>
+<dt>Maps "going out from" the type</dt><dd>Every function (map) from that type is uniquely determined by some data.</dd>
+</dl></dd>
+</dl>
 </div>
 <ol class="org-ol">
-<li><a id="orgd9daa50"></a>Uniqueness principle<br />
-<div class="outline-text-5" id="text-1-1-3-1">
-<p>
-Let \(f: A\rightarrow B\), \(\Phi\) is the "function body", then
-\[ f(x) :\equiv \Phi \simeq f :\equiv\lambda x.\Phi \]
-</p>
-</div>
-</li>
-<li><a id="orgc8e8cac"></a>Currying<br />
-<div class="outline-text-5" id="text-1-1-3-2">
-<p>
-\[ f: A \times B \rightarrow C \equiv f : A \rightarrow B \rightarrow C\]
-</p>
+<li><a id="orgd8d5b05"></a>Table for basic types<br />
+<div class="outline-text-5" id="text-2-9-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Formation</th>
+<th scope="col" class="org-left">Construction</th>
+<th scope="col" class="org-left">Elimination</th>
+<th scope="col" class="org-left">Computation</th>
+<th scope="col" class="org-left">Uniqueness?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">\(A \fun B\)</td>
+<td class="org-left">\(A:\U,B:\U\)</td>
+<td class="org-left">\(f:\equiv\lambda x.\Phi\)</td>
+<td class="org-left">Function application</td>
+<td class="org-left">\(f(a)\) is "substituting every free variable with \(a\)"</td>
+<td class="org-left">Defined</td>
+</tr>
+
+<tr>
+<td class="org-left">\(A \times B\)</td>
+<td class="org-left">\(A:\U,B:\U\)</td>
+<td class="org-left">\((,): A\fun B\fun A\times B\)</td>
+<td class="org-left">\(A\times B \fun C :\equiv A\fun B\fun C\)</td>
+<td class="org-left">Currying: \(f((a,b)) :\equiv g(a)(b)\)</td>
+<td class="org-left">Proven</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\Pi_{(x:A)}B(x)\)</td>
+<td class="org-left">\(x:A,A:\U,B(x):A\)</td>
+<td class="org-left">\(g:\equiv\lambda x.\Psi\)</td>
+<td class="org-left">Function application</td>
+<td class="org-left">\(g(a)\) is "substituting every free variable with \(a\)"</td>
+<td class="org-left">Defined</td>
+</tr>
+</tbody>
+</table>
 </div>
 </li>
 </ol>
 </div>
-
-<div id="outline-container-org0601d45" class="outline-4">
-<h4 id="org0601d45"><span class="section-number-4">1.1.4.</span> Dependent function types</h4>
-<div class="outline-text-4" id="text-1-1-4">
-<p>
-Given  a type $A: \mathcal{U} and a family of types \(B: A \rightarrow\mathcal{U}\), the type of dependent functions may be constructed
-\[\Sigma_{(x:A)}B(x)\]
-If B is a constant family this becomes the ordinary function type
-\[\Sigma_{(x:A)}B \equiv A \rightarrow B\]
-</p>
+<div id="outline-container-org0f3ac23" class="outline-4">
+<h4 id="org0f3ac23"><span class="section-number-4">2.9.2.</span> Objects of interest</h4>
+<div class="outline-text-4" id="text-2-9-2">
+<dl class="org-dl">
+<dt>Uniqueness principle (if not defined)</dt><dd>how can I find which elements of a type are definitionally equal to eachother?</dd>
+<dt>Recursor (or non-dependent eliminator)</dt><dd>a function that satisfies the <b>recursion principle</b>; special case of the induction principle</dd>
+<dt>Induction (dependent eliminator)</dt><dd>a function that satisfies the <b>induction principle</b>, an "iteration of the elements of the type"</dd>
+</dl>
 </div>
-</div>
-<div id="outline-container-org3fc1555" class="outline-4">
-<h4 id="org3fc1555"><span class="section-number-4">1.1.5.</span> <span class="todo TODO">TODO</span> Product types</h4>
-</div>
-<div id="outline-container-orgf8ef065" class="outline-4">
-<h4 id="orgf8ef065"><span class="section-number-4">1.1.6.</span> <span class="todo TODO">TODO</span> Dependent product types</h4>
-</div>
-<div id="outline-container-orgbdad1f7" class="outline-4">
-<h4 id="orgbdad1f7"><span class="section-number-4">1.1.7.</span> <span class="todo TODO">TODO</span> Coproduct types</h4>
-</div>
-<div id="outline-container-org7e5c627" class="outline-4">
-<h4 id="org7e5c627"><span class="section-number-4">1.1.8.</span> <span class="todo TODO">TODO</span> The type of booleans</h4>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Duskhorn</p>
-<p class="date">Created: 2022-11-18 Fri 12:27</p>
+<p class="date">Created: 2022-11-21 Mon 18:02</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
