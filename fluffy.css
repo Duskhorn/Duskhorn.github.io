@@ -1,13 +1,6 @@
 #content {max-width: 90em; margin: auto}
 
-ul {
-    padding: 0px;
-    margin: 0px;
-    border: solid 1px whitesmoke;
-    border-radius: 10px
-}
-
-li {
-    display: inline-block;
-    padding: 2px 5px
+.outline-2 {
+    border: solid 2px whitesmoke;
+    border-radius: 15px
 }
