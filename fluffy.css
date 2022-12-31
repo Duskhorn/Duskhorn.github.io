@@ -2,5 +2,7 @@
 
 .outline-2 {
     border: solid 2px whitesmoke;
-    border-radius: 15px
+    border-radius: 15px;
+    padding: 5px;
+    margin: auto
 }
