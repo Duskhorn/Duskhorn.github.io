@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-21 Sun 12:39 -->
+<!-- 2024-01-21 Sun 16:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Riassunto Data and Web Mining</title>
@@ -233,84 +233,92 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge09e285">1. Workflow</a>
+<li><a href="#org67556b2">1. Workflow</a>
 <ul>
-<li><a href="#org9e4a54b">1.1. Train-test</a></li>
-<li><a href="#orga4f68e3">1.2. k-fold</a></li>
-<li><a href="#org16a0bf1">1.3. Stratified sampling</a></li>
-<li><a href="#orgb44ac6a">1.4. \(Error = bias^2 + Var + \varepsilon\)!</a></li>
+<li><a href="#org96ab9b3">1.1. Train-test</a></li>
+<li><a href="#orgd149269">1.2. k-fold</a></li>
+<li><a href="#orgd57191f">1.3. Stratified sampling</a></li>
+<li><a href="#org309231e">1.4. \(Error = bias^2 + Var + \varepsilon\)!</a></li>
 </ul>
 </li>
-<li><a href="#orgf09006c">2. Classification</a>
+<li><a href="#org8de3daa">2. Classification</a>
 <ul>
-<li><a href="#orged38d4d">2.1. kNN</a></li>
-<li><a href="#org3084419">2.2. Decision trees</a>
+<li><a href="#org6e25524">2.1. kNN</a></li>
+<li><a href="#org6399f82">2.2. Decision trees</a>
 <ul>
-<li><a href="#orgbb9e9a9">2.2.1. Algoritmo di Hunt</a></li>
-<li><a href="#org2518a80">2.2.2. Valutazione e selezione dei modelli</a></li>
+<li><a href="#org5ec44e7">2.2.1. Algoritmo di Hunt</a></li>
+<li><a href="#org9641d16">2.2.2. Valutazione e selezione dei modelli</a></li>
 </ul>
 </li>
-<li><a href="#org11af0c7">2.3. Regressione logistica</a></li>
-<li><a href="#orgdf1904d">2.4. SVM</a></li>
+<li><a href="#org7148115">2.3. Regressione logistica</a></li>
+<li><a href="#orgf9c68dc">2.4. SVM</a></li>
 </ul>
 </li>
-<li><a href="#org87e4183">3. Metodi ensemble</a>
+<li><a href="#org8aa29b7">3. Metodi ensemble</a>
 <ul>
-<li><a href="#org08cf605">3.1. Bagging</a></li>
-<li><a href="#org5692a7c">3.2. Boosting</a></li>
-<li><a href="#org59eaba8">3.3. Random Forest</a></li>
+<li><a href="#org8c8223d">3.1. Bagging</a></li>
+<li><a href="#orgae58be7">3.2. Boosting</a></li>
+<li><a href="#org31d2e59">3.3. Random Forest</a></li>
 </ul>
 </li>
-<li><a href="#orgebf9cb6">4. Feature Engineering</a>
+<li><a href="#org61aedd3">4. Feature Engineering</a>
 <ul>
-<li><a href="#org9c6e19b">4.1. Encoding</a></li>
-<li><a href="#orgb5864e2">4.2. Misure di accuratezza</a></li>
-<li><a href="#orgf3dbbfd">4.3. ROC e AUC</a></li>
+<li><a href="#org8145eaf">4.1. Encoding</a></li>
+<li><a href="#org7d81646">4.2. Misure di accuratezza</a></li>
+<li><a href="#org6350df6">4.3. ROC e AUC</a></li>
 </ul>
 </li>
-<li><a href="#orgf6a19a1">5. Text processing</a>
+<li><a href="#org37a1849">5. Text processing</a>
 <ul>
-<li><a href="#org514ca33">5.1. Text encoding</a></li>
-<li><a href="#orgd97a0d6">5.2. Bayes nativo</a></li>
+<li><a href="#org2dc7452">5.1. Text encoding</a></li>
+<li><a href="#org30a36da">5.2. Bayes nativo</a></li>
 </ul>
 </li>
+<li><a href="#org44e2d26">6. Ranking</a>
+<ul>
+<li><a href="#org065baca">6.1. NDCG@K</a></li>
+<li><a href="#org63c559c">6.2. Generazione dei label</a></li>
+<li><a href="#org2b9ed80">6.3. PageRank</a></li>
+</ul>
+</li>
+<li><a href="#org0b45458">7. Artificial Neural Networks</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orge09e285" class="outline-2">
-<h2 id="orge09e285"><span class="section-number-2">1.</span> Workflow</h2>
+<div id="outline-container-org67556b2" class="outline-2">
+<h2 id="org67556b2"><span class="section-number-2">1.</span> Workflow</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org9e4a54b" class="outline-3">
-<h3 id="org9e4a54b"><span class="section-number-3">1.1.</span> Train-test</h3>
+<div id="outline-container-org96ab9b3" class="outline-3">
+<h3 id="org96ab9b3"><span class="section-number-3">1.1.</span> Train-test</h3>
 </div>
-<div id="outline-container-orga4f68e3" class="outline-3">
-<h3 id="orga4f68e3"><span class="section-number-3">1.2.</span> k-fold</h3>
+<div id="outline-container-orgd149269" class="outline-3">
+<h3 id="orgd149269"><span class="section-number-3">1.2.</span> k-fold</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Ruotare validation e training set mantenendo invariato il tuning degli iperparametri per valutare la performance del modello
 </p>
 </div>
 </div>
-<div id="outline-container-org16a0bf1" class="outline-3">
-<h3 id="org16a0bf1"><span class="section-number-3">1.3.</span> Stratified sampling</h3>
+<div id="outline-container-orgd57191f" class="outline-3">
+<h3 id="orgd57191f"><span class="section-number-3">1.3.</span> Stratified sampling</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 Quando si fa un sampling da un dataset per dividere in training/validation, prendere dati in modo tale da mantenere una proporzione delle classi del dataset originale
 </p>
 </div>
 </div>
-<div id="outline-container-orgb44ac6a" class="outline-3">
-<h3 id="orgb44ac6a"><span class="section-number-3">1.4.</span> \(Error = bias^2 + Var + \varepsilon\)!</h3>
+<div id="outline-container-org309231e" class="outline-3">
+<h3 id="org309231e"><span class="section-number-3">1.4.</span> \(Error = bias^2 + Var + \varepsilon\)!</h3>
 </div>
 </div>
-<div id="outline-container-orgf09006c" class="outline-2">
-<h2 id="orgf09006c"><span class="section-number-2">2.</span> Classification</h2>
+<div id="outline-container-org8de3daa" class="outline-2">
+<h2 id="org8de3daa"><span class="section-number-2">2.</span> Classification</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orged38d4d" class="outline-3">
-<h3 id="orged38d4d"><span class="section-number-3">2.1.</span> kNN</h3>
+<div id="outline-container-org6e25524" class="outline-3">
+<h3 id="org6e25524"><span class="section-number-3">2.1.</span> kNN</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 k Nearest Neighbor classifier.
@@ -347,8 +355,8 @@ Potrebbe essere utile scalare i dataset in modo tale da avere le stesse "unità 
 </div>
 </div>
 
-<div id="outline-container-org3084419" class="outline-3">
-<h3 id="org3084419"><span class="section-number-3">2.2.</span> Decision trees</h3>
+<div id="outline-container-org6399f82" class="outline-3">
+<h3 id="org6399f82"><span class="section-number-3">2.2.</span> Decision trees</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Utilizzati sia per classificazione che regressione.
@@ -371,8 +379,8 @@ Varie tipologie di errore:
 <dt>Regressione</dt><dd>\(Error(D) = MSE(D)\).</dd>
 </dl>
 </div>
-<div id="outline-container-orgbb9e9a9" class="outline-4">
-<h4 id="orgbb9e9a9"><span class="section-number-4">2.2.1.</span> Algoritmo di Hunt</h4>
+<div id="outline-container-org5ec44e7" class="outline-4">
+<h4 id="org5ec44e7"><span class="section-number-4">2.2.1.</span> Algoritmo di Hunt</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <ol class="org-ol">
 <li>A partire dalla classe più frequente, per ogni feature e per ogni threshold, esegui lo split \(S\) delle feature;</li>
@@ -383,8 +391,8 @@ Varie tipologie di errore:
 </div>
 </div>
 
-<div id="outline-container-org2518a80" class="outline-4">
-<h4 id="org2518a80"><span class="section-number-4">2.2.2.</span> Valutazione e selezione dei modelli</h4>
+<div id="outline-container-org9641d16" class="outline-4">
+<h4 id="org9641d16"><span class="section-number-4">2.2.2.</span> Valutazione e selezione dei modelli</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 Per selezionare il migliore è comodo tenere traccia anche della complessità del modello stesso nei calcoli.
@@ -399,8 +407,8 @@ In genere: Alberi piccoli hanno bias molto alto ma varianza piccola, alberi gros
 </div>
 </div>
 
-<div id="outline-container-org11af0c7" class="outline-3">
-<h3 id="org11af0c7"><span class="section-number-3">2.3.</span> Regressione logistica</h3>
+<div id="outline-container-org7148115" class="outline-3">
+<h3 id="org7148115"><span class="section-number-3">2.3.</span> Regressione logistica</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Regressione utilizzando la sigmoide come link function. Non c'è molto altro da dire
@@ -408,8 +416,8 @@ Regressione utilizzando la sigmoide come link function. Non c'è molto altro da 
 </div>
 </div>
 
-<div id="outline-container-orgdf1904d" class="outline-3">
-<h3 id="orgdf1904d"><span class="section-number-3">2.4.</span> SVM</h3>
+<div id="outline-container-orgf9c68dc" class="outline-3">
+<h3 id="orgf9c68dc"><span class="section-number-3">2.4.</span> SVM</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 Lo scopo è "disegnare" un iperpiano nello spazio dei punti, ottenendo così una classificazione. Gli SVM offrono solo una classificazione di tipo binario; per classificare tra una categoria non binaria, è necessario utilizzare più SVM in serie. Questo è possibile per il <a href="https://it.wikipedia.org/wiki/Teorema_del_panino_al_prosciutto">teorema del panino al prosciutto (vorrei star scherzando)</a>
@@ -424,12 +432,12 @@ Se i punti non sono separabili linearmente, è possibile introdurre un "soft mar
 </div>
 </div>
 </div>
-<div id="outline-container-org87e4183" class="outline-2">
-<h2 id="org87e4183"><span class="section-number-2">3.</span> Metodi ensemble</h2>
+<div id="outline-container-org8aa29b7" class="outline-2">
+<h2 id="org8aa29b7"><span class="section-number-2">3.</span> Metodi ensemble</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org08cf605" class="outline-3">
-<h3 id="org08cf605"><span class="section-number-3">3.1.</span> Bagging</h3>
+<div id="outline-container-org8c8223d" class="outline-3">
+<h3 id="org8c8223d"><span class="section-number-3">3.1.</span> Bagging</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Metodo per ridurre la varianza del modello.
@@ -442,8 +450,8 @@ Metodo per ridurre la varianza del modello.
 </ol>
 </div>
 </div>
-<div id="outline-container-org5692a7c" class="outline-3">
-<h3 id="org5692a7c"><span class="section-number-3">3.2.</span> Boosting</h3>
+<div id="outline-container-orgae58be7" class="outline-3">
+<h3 id="orgae58be7"><span class="section-number-3">3.2.</span> Boosting</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Metodo per ridurre il bias del modello.
@@ -456,8 +464,8 @@ Metodo per ridurre il bias del modello.
 </ol>
 </div>
 </div>
-<div id="outline-container-org59eaba8" class="outline-3">
-<h3 id="org59eaba8"><span class="section-number-3">3.3.</span> Random Forest</h3>
+<div id="outline-container-org31d2e59" class="outline-3">
+<h3 id="org31d2e59"><span class="section-number-3">3.3.</span> Random Forest</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Essenzialmente è un bagging modificato per un Albero di Decisione completo, in modo tale da migliorare la varianza di un modello a bias già basso.
@@ -470,12 +478,12 @@ Una delle differenze dal bagging tradizionale è che per ogni diverso nodo che v
 </div>
 </div>
 </div>
-<div id="outline-container-orgebf9cb6" class="outline-2">
-<h2 id="orgebf9cb6"><span class="section-number-2">4.</span> Feature Engineering</h2>
+<div id="outline-container-org61aedd3" class="outline-2">
+<h2 id="org61aedd3"><span class="section-number-2">4.</span> Feature Engineering</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org9c6e19b" class="outline-3">
-<h3 id="org9c6e19b"><span class="section-number-3">4.1.</span> Encoding</h3>
+<div id="outline-container-org8145eaf" class="outline-3">
+<h3 id="org8145eaf"><span class="section-number-3">4.1.</span> Encoding</h3>
 <div class="outline-text-3" id="text-4-1">
 <ul class="org-ul">
 <li>Scelte binarie diventano \(Bool\);</li>
@@ -487,8 +495,8 @@ Una delle differenze dal bagging tradizionale è che per ogni diverso nodo che v
 </div>
 </div>
 
-<div id="outline-container-orgb5864e2" class="outline-3">
-<h3 id="orgb5864e2"><span class="section-number-3">4.2.</span> Misure di accuratezza</h3>
+<div id="outline-container-org7d81646" class="outline-3">
+<h3 id="org7d81646"><span class="section-number-3">4.2.</span> Misure di accuratezza</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Siano \(\lambda\) label reale, \(\hat{\lambda}\) label predetto, \(c\) una classe:  
@@ -510,8 +518,8 @@ Siano \(\lambda\) label reale, \(\hat{\lambda}\) label predetto, \(c\) una class
 </dl>
 </div>
 </div>
-<div id="outline-container-orgf3dbbfd" class="outline-3">
-<h3 id="orgf3dbbfd"><span class="section-number-3">4.3.</span> ROC e AUC</h3>
+<div id="outline-container-org6350df6" class="outline-3">
+<h3 id="org6350df6"><span class="section-number-3">4.3.</span> ROC e AUC</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 ROC sta per curva "Receiver Operating Characteristic".
@@ -525,12 +533,12 @@ Quindi, in genere per una selezione binaria, si crea un grafico dove si disegna 
 </div>
 </div>
 
-<div id="outline-container-orgf6a19a1" class="outline-2">
-<h2 id="orgf6a19a1"><span class="section-number-2">5.</span> Text processing</h2>
+<div id="outline-container-org37a1849" class="outline-2">
+<h2 id="org37a1849"><span class="section-number-2">5.</span> Text processing</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org514ca33" class="outline-3">
-<h3 id="org514ca33"><span class="section-number-3">5.1.</span> Text encoding</h3>
+<div id="outline-container-org2dc7452" class="outline-3">
+<h3 id="org2dc7452"><span class="section-number-3">5.1.</span> Text encoding</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 In genere per processare un documento di testo si può trattare il testo come una sequenza di parole.
@@ -551,8 +559,8 @@ Si dice stemming il processo di rimozione di suffissi, lemming quello di rimpiaz
 </p>
 </div>
 </div>
-<div id="outline-container-orgd97a0d6" class="outline-3">
-<h3 id="orgd97a0d6"><span class="section-number-3">5.2.</span> Bayes nativo</h3>
+<div id="outline-container-org30a36da" class="outline-3">
+<h3 id="org30a36da"><span class="section-number-3">5.2.</span> Bayes nativo</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Si utilizza il teorema di Bayes per classificare dei documenti (ad esempio per definire se un messaggio di email è spam oppure no) a partire dal contenuto delle proprie parole.
@@ -579,10 +587,60 @@ Spesso si trasformano i \(P(C_i|X)\) per motivi di stabilità numerica e computa
 </div>
 </div>
 </div>
+<div id="outline-container-org44e2d26" class="outline-2">
+<h2 id="org44e2d26"><span class="section-number-2">6.</span> Ranking</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org065baca" class="outline-3">
+<h3 id="org065baca"><span class="section-number-3">6.1.</span> NDCG@K</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+"Normalized Discounted Cumulative Gain".
+Usato generalmente per dare una misura della qualità dei motori di ricerca.
+</p>
+
+<p>
+Il principio è cercare i primi \(k\) documenti e sommare assieme il loro contributo (<i>gain</i> \(G(r)\)); più avanti nella pagina stanno, meno significatività hanno (descritto dal termine <i>discount</i> \(D(r)\)).
+\[NDCG = \sum_r \frac{2^r - 1}{\log_2(1+r)} = \sum_r G(d_r)\cdot D(r)\]
+</p>
+</div>
+</div>
+<div id="outline-container-org63c559c" class="outline-3">
+<h3 id="org63c559c"><span class="section-number-3">6.2.</span> Generazione dei label</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+Generare il ranking \(r\) non è facile. Si può
+</p>
+<ul class="org-ul">
+<li>Chiedere agli utenti di dare un voto ai risultati di ricerca</li>
+<li>Processare gli input (fissazione, click, riformulazione della ricerca&#x2026;) come indicazione</li>
+<li>Tracciare il movimento degli occhi</li>
+<li>Chiedere un feedback agli utenti per i primi due risutati</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2b9ed80" class="outline-3">
+<h3 id="org2b9ed80"><span class="section-number-3">6.3.</span> PageRank</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Algoritmo usato da Google per determinare un ranking delle pagine web da mostrare.
+</p>
+
+<p>
+Funziona contando il numero e la qualità dei link a una pagina per stimare quanto importante sia una pagina. L'assunzione è che  siti web più importanti hanno più probabilità di avere link esterni da altri siti web.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0b45458" class="outline-2">
+<h2 id="org0b45458"><span class="section-number-2">7.</span> Artificial Neural Networks</h2>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Duskhorn</p>
-<p class="date">Created: 2024-01-21 Sun 12:39</p>
+<p class="date">Created: 2024-01-21 Sun 16:08</p>
 </div>
 </body>
 </html>
