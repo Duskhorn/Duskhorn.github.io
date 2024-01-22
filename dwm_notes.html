@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-01-22 Mon 12:32 -->
+<!-- 2024-01-22 Mon 18:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Riassunto Data and Web Mining</title>
@@ -233,83 +233,89 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf2cab67">1. Workflow</a>
+<li><a href="#org8dfe318">1. Workflow</a>
 <ul>
-<li><a href="#org682013a">1.1. Train-test</a></li>
-<li><a href="#org23a7037">1.2. k-fold</a></li>
-<li><a href="#orgcb7af8c">1.3. Stratified sampling</a></li>
-<li><a href="#org288616a">1.4. \(Error = bias^2 + Var + \varepsilon\)!</a></li>
+<li><a href="#org9435b25">1.1. Train-test</a></li>
+<li><a href="#orgb583c96">1.2. k-fold</a></li>
+<li><a href="#org4767d30">1.3. Stratified sampling</a></li>
+<li><a href="#orgf5f13fc">1.4. \(Error = bias^2 + Var + \varepsilon\)!</a></li>
 </ul>
 </li>
-<li><a href="#orgdb251fd">2. Classification</a>
+<li><a href="#orgb07eb3f">2. Classification</a>
 <ul>
-<li><a href="#org8b1b1e7">2.1. kNN</a></li>
-<li><a href="#org1157a98">2.2. Decision trees</a>
+<li><a href="#org11d59f0">2.1. kNN</a></li>
+<li><a href="#org17a4f3f">2.2. Decision trees</a>
 <ul>
-<li><a href="#org7484f3d">2.2.1. Algoritmo di Hunt</a></li>
-<li><a href="#orge063af4">2.2.2. Valutazione e selezione dei modelli</a></li>
+<li><a href="#org252a0e2">2.2.1. Algoritmo di Hunt</a></li>
+<li><a href="#orgaee0994">2.2.2. Valutazione e selezione dei modelli</a></li>
 </ul>
 </li>
-<li><a href="#org89a3c34">2.3. Regressione logistica</a></li>
-<li><a href="#org51bbb03">2.4. SVM</a></li>
+<li><a href="#org8195af1">2.3. Regressione logistica</a></li>
+<li><a href="#orgae02931">2.4. SVM</a></li>
 </ul>
 </li>
-<li><a href="#org5935a2d">3. Metodi ensemble</a>
+<li><a href="#org4f7fa5d">3. Metodi ensemble</a>
 <ul>
-<li><a href="#orgef1ee98">3.1. Bagging</a></li>
-<li><a href="#org50ff598">3.2. Boosting</a></li>
-<li><a href="#org457f04f">3.3. Random Forest</a></li>
+<li><a href="#org7010f24">3.1. Bagging</a></li>
+<li><a href="#org6d26fa6">3.2. Boosting</a></li>
+<li><a href="#orgac3e57f">3.3. Random Forest</a></li>
 </ul>
 </li>
-<li><a href="#orged480c9">4. Feature Engineering</a>
+<li><a href="#orgda7a939">4. Feature Engineering</a>
 <ul>
-<li><a href="#org93bd222">4.1. Encoding</a></li>
-<li><a href="#orgbe0aa74">4.2. Misure di accuratezza</a></li>
-<li><a href="#org6ec6b35">4.3. ROC e AUC</a></li>
+<li><a href="#org024ab00">4.1. Encoding</a></li>
+<li><a href="#org4ce966a">4.2. Misure di accuratezza</a></li>
+<li><a href="#org45356e3">4.3. ROC e AUC</a></li>
 </ul>
 </li>
-<li><a href="#org17a0aa1">5. Text processing</a>
+<li><a href="#org8001799">5. Text processing</a>
 <ul>
-<li><a href="#org436ce37">5.1. Text encoding</a></li>
-<li><a href="#orgcee183a">5.2. Bayes nativo</a></li>
+<li><a href="#org9f1bc34">5.1. Text encoding</a></li>
+<li><a href="#org026e67d">5.2. Bayes nativo</a></li>
 </ul>
 </li>
-<li><a href="#org056fe8a">6. Ranking</a>
+<li><a href="#org3c0ec59">6. Ranking</a>
 <ul>
-<li><a href="#orgb184d1f">6.1. NDCG@K</a></li>
-<li><a href="#orgca0eead">6.2. Generazione dei label</a></li>
-<li><a href="#org850c526">6.3. PageRank</a></li>
+<li><a href="#orga32b40c">6.1. NDCG@K</a></li>
+<li><a href="#org2640617">6.2. Generazione dei label</a></li>
+<li><a href="#orgd470942">6.3. PageRank</a></li>
 </ul>
 </li>
-<li><a href="#orge7715eb">7. Artificial Neural Networks</a>
+<li><a href="#org4157f6c">7. Artificial Neural Networks</a>
 <ul>
-<li><a href="#orgd6bbbea">7.1. Neurone artificiale</a>
+<li><a href="#orgd1cca7d">7.1. Neurone artificiale</a>
 <ul>
-<li><a href="#orga7fb1b4">7.1.1. Apprendimento</a></li>
+<li><a href="#org5d881cf">7.1.1. Apprendimento</a></li>
 </ul>
 </li>
-<li><a href="#org6a8c554">7.2. Deep Learning</a></li>
-<li><a href="#org0c5833e">7.3. Overfitting</a></li>
-<li><a href="#org2ebe2d1">7.4. Transfer learning</a></li>
-<li><a href="#orgdfbaa19">7.5. 11 Raccomandazioni</a></li>
+<li><a href="#orgaf802de">7.2. Deep Learning</a></li>
+<li><a href="#org7ba668f">7.3. Overfitting</a></li>
+<li><a href="#org840bc7e">7.4. Transfer learning</a></li>
+<li><a href="#org10ac054">7.5. 11 Raccomandazioni</a></li>
 </ul>
 </li>
-<li><a href="#org9758101">8. Clustering</a>
+<li><a href="#org87930f0">8. Clustering</a>
 <ul>
-<li><a href="#orgdb2b81c">8.1. Obbiettivi e misurazioni del clustering</a></li>
-<li><a href="#org65b029f">8.2. Approcci di partizionamento</a>
+<li><a href="#orgdfe6040">8.1. Obbiettivi e misurazioni del clustering</a></li>
+<li><a href="#orgfaed48e">8.2. Approcci di partizionamento</a>
 <ul>
-<li><a href="#orgb70421a">8.2.1. k-Means</a></li>
+<li><a href="#org5c4e4a4">8.2.1. k-Means</a></li>
 </ul>
 </li>
-<li><a href="#orga43a35a">8.3. Approcci gerarchici</a>
+<li><a href="#org697f449">8.3. Approcci gerarchici</a>
 <ul>
-<li><a href="#org2ae6863">8.3.1. Hierarchical Agglomerative Cluster</a></li>
+<li><a href="#org408bec7">8.3.1. Hierarchical Agglomerative Cluster</a></li>
 </ul>
 </li>
-<li><a href="#orge227be0">8.4. Approcci di densità</a>
+<li><a href="#org769c6a7">8.4. Approcci di densità</a>
 <ul>
-<li><a href="#org54a3ba2">8.4.1. DBSCAN</a></li>
+<li><a href="#orgcf8127e">8.4.1. DBSCAN</a></li>
+</ul>
+</li>
+<li><a href="#orgaee86ad">8.5. Valutazione dei clsuter</a>
+<ul>
+<li><a href="#orge1514d6">8.5.1. Intrinseca</a></li>
+<li><a href="#org9ff2745">8.5.2. Estrinseca</a></li>
 </ul>
 </li>
 </ul>
@@ -318,39 +324,39 @@
 </div>
 </div>
 
-<div id="outline-container-orgf2cab67" class="outline-2">
-<h2 id="orgf2cab67"><span class="section-number-2">1.</span> Workflow</h2>
+<div id="outline-container-org8dfe318" class="outline-2">
+<h2 id="org8dfe318"><span class="section-number-2">1.</span> Workflow</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org682013a" class="outline-3">
-<h3 id="org682013a"><span class="section-number-3">1.1.</span> Train-test</h3>
+<div id="outline-container-org9435b25" class="outline-3">
+<h3 id="org9435b25"><span class="section-number-3">1.1.</span> Train-test</h3>
 </div>
-<div id="outline-container-org23a7037" class="outline-3">
-<h3 id="org23a7037"><span class="section-number-3">1.2.</span> k-fold</h3>
+<div id="outline-container-orgb583c96" class="outline-3">
+<h3 id="orgb583c96"><span class="section-number-3">1.2.</span> k-fold</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Ruotare validation e training set mantenendo invariato il tuning degli iperparametri per valutare la performance del modello
 </p>
 </div>
 </div>
-<div id="outline-container-orgcb7af8c" class="outline-3">
-<h3 id="orgcb7af8c"><span class="section-number-3">1.3.</span> Stratified sampling</h3>
+<div id="outline-container-org4767d30" class="outline-3">
+<h3 id="org4767d30"><span class="section-number-3">1.3.</span> Stratified sampling</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 Quando si fa un sampling da un dataset per dividere in training/validation, prendere dati in modo tale da mantenere una proporzione delle classi del dataset originale
 </p>
 </div>
 </div>
-<div id="outline-container-org288616a" class="outline-3">
-<h3 id="org288616a"><span class="section-number-3">1.4.</span> \(Error = bias^2 + Var + \varepsilon\)!</h3>
+<div id="outline-container-orgf5f13fc" class="outline-3">
+<h3 id="orgf5f13fc"><span class="section-number-3">1.4.</span> \(Error = bias^2 + Var + \varepsilon\)!</h3>
 </div>
 </div>
-<div id="outline-container-orgdb251fd" class="outline-2">
-<h2 id="orgdb251fd"><span class="section-number-2">2.</span> Classification</h2>
+<div id="outline-container-orgb07eb3f" class="outline-2">
+<h2 id="orgb07eb3f"><span class="section-number-2">2.</span> Classification</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org8b1b1e7" class="outline-3">
-<h3 id="org8b1b1e7"><span class="section-number-3">2.1.</span> kNN</h3>
+<div id="outline-container-org11d59f0" class="outline-3">
+<h3 id="org11d59f0"><span class="section-number-3">2.1.</span> kNN</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 k Nearest Neighbor classifier.
@@ -387,8 +393,8 @@ Potrebbe essere utile scalare i dataset in modo tale da avere le stesse "unità 
 </div>
 </div>
 
-<div id="outline-container-org1157a98" class="outline-3">
-<h3 id="org1157a98"><span class="section-number-3">2.2.</span> Decision trees</h3>
+<div id="outline-container-org17a4f3f" class="outline-3">
+<h3 id="org17a4f3f"><span class="section-number-3">2.2.</span> Decision trees</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Utilizzati sia per classificazione che regressione.
@@ -411,8 +417,8 @@ Varie tipologie di errore:
 <dt>Regressione</dt><dd>\(Error(D) = MSE(D)\).</dd>
 </dl>
 </div>
-<div id="outline-container-org7484f3d" class="outline-4">
-<h4 id="org7484f3d"><span class="section-number-4">2.2.1.</span> Algoritmo di Hunt</h4>
+<div id="outline-container-org252a0e2" class="outline-4">
+<h4 id="org252a0e2"><span class="section-number-4">2.2.1.</span> Algoritmo di Hunt</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <ol class="org-ol">
 <li>A partire dalla classe più frequente, per ogni feature e per ogni threshold, esegui lo split \(S\) delle feature;</li>
@@ -423,8 +429,8 @@ Varie tipologie di errore:
 </div>
 </div>
 
-<div id="outline-container-orge063af4" class="outline-4">
-<h4 id="orge063af4"><span class="section-number-4">2.2.2.</span> Valutazione e selezione dei modelli</h4>
+<div id="outline-container-orgaee0994" class="outline-4">
+<h4 id="orgaee0994"><span class="section-number-4">2.2.2.</span> Valutazione e selezione dei modelli</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 Per selezionare il migliore è comodo tenere traccia anche della complessità del modello stesso nei calcoli.
@@ -439,8 +445,8 @@ In genere: Alberi piccoli hanno bias molto alto ma varianza piccola, alberi gros
 </div>
 </div>
 
-<div id="outline-container-org89a3c34" class="outline-3">
-<h3 id="org89a3c34"><span class="section-number-3">2.3.</span> Regressione logistica</h3>
+<div id="outline-container-org8195af1" class="outline-3">
+<h3 id="org8195af1"><span class="section-number-3">2.3.</span> Regressione logistica</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Regressione utilizzando la sigmoide come link function. Non c'è molto altro da dire
@@ -448,8 +454,8 @@ Regressione utilizzando la sigmoide come link function. Non c'è molto altro da 
 </div>
 </div>
 
-<div id="outline-container-org51bbb03" class="outline-3">
-<h3 id="org51bbb03"><span class="section-number-3">2.4.</span> SVM</h3>
+<div id="outline-container-orgae02931" class="outline-3">
+<h3 id="orgae02931"><span class="section-number-3">2.4.</span> SVM</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 Lo scopo è "disegnare" un iperpiano nello spazio dei punti, ottenendo così una classificazione. Gli SVM offrono solo una classificazione di tipo binario; per classificare tra una categoria non binaria, è necessario utilizzare più SVM in serie. Questo è possibile per il <a href="https://it.wikipedia.org/wiki/Teorema_del_panino_al_prosciutto">teorema del panino al prosciutto (vorrei star scherzando)</a>
@@ -464,12 +470,12 @@ Se i punti non sono separabili linearmente, è possibile introdurre un "soft mar
 </div>
 </div>
 </div>
-<div id="outline-container-org5935a2d" class="outline-2">
-<h2 id="org5935a2d"><span class="section-number-2">3.</span> Metodi ensemble</h2>
+<div id="outline-container-org4f7fa5d" class="outline-2">
+<h2 id="org4f7fa5d"><span class="section-number-2">3.</span> Metodi ensemble</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgef1ee98" class="outline-3">
-<h3 id="orgef1ee98"><span class="section-number-3">3.1.</span> Bagging</h3>
+<div id="outline-container-org7010f24" class="outline-3">
+<h3 id="org7010f24"><span class="section-number-3">3.1.</span> Bagging</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Metodo per ridurre la varianza del modello.
@@ -482,8 +488,8 @@ Metodo per ridurre la varianza del modello.
 </ol>
 </div>
 </div>
-<div id="outline-container-org50ff598" class="outline-3">
-<h3 id="org50ff598"><span class="section-number-3">3.2.</span> Boosting</h3>
+<div id="outline-container-org6d26fa6" class="outline-3">
+<h3 id="org6d26fa6"><span class="section-number-3">3.2.</span> Boosting</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Metodo per ridurre il bias del modello.
@@ -496,8 +502,8 @@ Metodo per ridurre il bias del modello.
 </ol>
 </div>
 </div>
-<div id="outline-container-org457f04f" class="outline-3">
-<h3 id="org457f04f"><span class="section-number-3">3.3.</span> Random Forest</h3>
+<div id="outline-container-orgac3e57f" class="outline-3">
+<h3 id="orgac3e57f"><span class="section-number-3">3.3.</span> Random Forest</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Essenzialmente è un bagging modificato per un Albero di Decisione completo, in modo tale da migliorare la varianza di un modello a bias già basso.
@@ -510,12 +516,12 @@ Una delle differenze dal bagging tradizionale è che per ogni diverso nodo che v
 </div>
 </div>
 </div>
-<div id="outline-container-orged480c9" class="outline-2">
-<h2 id="orged480c9"><span class="section-number-2">4.</span> Feature Engineering</h2>
+<div id="outline-container-orgda7a939" class="outline-2">
+<h2 id="orgda7a939"><span class="section-number-2">4.</span> Feature Engineering</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org93bd222" class="outline-3">
-<h3 id="org93bd222"><span class="section-number-3">4.1.</span> Encoding</h3>
+<div id="outline-container-org024ab00" class="outline-3">
+<h3 id="org024ab00"><span class="section-number-3">4.1.</span> Encoding</h3>
 <div class="outline-text-3" id="text-4-1">
 <ul class="org-ul">
 <li>Scelte binarie diventano \(Bool\);</li>
@@ -527,8 +533,8 @@ Una delle differenze dal bagging tradizionale è che per ogni diverso nodo che v
 </div>
 </div>
 
-<div id="outline-container-orgbe0aa74" class="outline-3">
-<h3 id="orgbe0aa74"><span class="section-number-3">4.2.</span> Misure di accuratezza</h3>
+<div id="outline-container-org4ce966a" class="outline-3">
+<h3 id="org4ce966a"><span class="section-number-3">4.2.</span> Misure di accuratezza</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Siano \(\lambda\) label reale, \(\hat{\lambda}\) label predetto, \(c\) una classe:  
@@ -550,8 +556,8 @@ Siano \(\lambda\) label reale, \(\hat{\lambda}\) label predetto, \(c\) una class
 </dl>
 </div>
 </div>
-<div id="outline-container-org6ec6b35" class="outline-3">
-<h3 id="org6ec6b35"><span class="section-number-3">4.3.</span> ROC e AUC</h3>
+<div id="outline-container-org45356e3" class="outline-3">
+<h3 id="org45356e3"><span class="section-number-3">4.3.</span> ROC e AUC</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 ROC sta per curva "Receiver Operating Characteristic".
@@ -565,12 +571,12 @@ Quindi, in genere per una selezione binaria, si crea un grafico dove si disegna 
 </div>
 </div>
 
-<div id="outline-container-org17a0aa1" class="outline-2">
-<h2 id="org17a0aa1"><span class="section-number-2">5.</span> Text processing</h2>
+<div id="outline-container-org8001799" class="outline-2">
+<h2 id="org8001799"><span class="section-number-2">5.</span> Text processing</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org436ce37" class="outline-3">
-<h3 id="org436ce37"><span class="section-number-3">5.1.</span> Text encoding</h3>
+<div id="outline-container-org9f1bc34" class="outline-3">
+<h3 id="org9f1bc34"><span class="section-number-3">5.1.</span> Text encoding</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 In genere per processare un documento di testo si può trattare il testo come una sequenza di parole.
@@ -591,8 +597,8 @@ Si dice stemming il processo di rimozione di suffissi, lemming quello di rimpiaz
 </p>
 </div>
 </div>
-<div id="outline-container-orgcee183a" class="outline-3">
-<h3 id="orgcee183a"><span class="section-number-3">5.2.</span> Bayes nativo</h3>
+<div id="outline-container-org026e67d" class="outline-3">
+<h3 id="org026e67d"><span class="section-number-3">5.2.</span> Bayes nativo</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Si utilizza il teorema di Bayes per classificare dei documenti (ad esempio per definire se un messaggio di email è spam oppure no) a partire dal contenuto delle proprie parole.
@@ -619,12 +625,12 @@ Spesso si trasformano i \(P(C_i|X)\) per motivi di stabilità numerica e computa
 </div>
 </div>
 </div>
-<div id="outline-container-org056fe8a" class="outline-2">
-<h2 id="org056fe8a"><span class="section-number-2">6.</span> Ranking</h2>
+<div id="outline-container-org3c0ec59" class="outline-2">
+<h2 id="org3c0ec59"><span class="section-number-2">6.</span> Ranking</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orgb184d1f" class="outline-3">
-<h3 id="orgb184d1f"><span class="section-number-3">6.1.</span> NDCG@K</h3>
+<div id="outline-container-orga32b40c" class="outline-3">
+<h3 id="orga32b40c"><span class="section-number-3">6.1.</span> NDCG@K</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 "Normalized Discounted Cumulative Gain".
@@ -637,8 +643,8 @@ Il principio è cercare i primi \(k\) documenti e sommare assieme il loro contri
 </p>
 </div>
 </div>
-<div id="outline-container-orgca0eead" class="outline-3">
-<h3 id="orgca0eead"><span class="section-number-3">6.2.</span> Generazione dei label</h3>
+<div id="outline-container-org2640617" class="outline-3">
+<h3 id="org2640617"><span class="section-number-3">6.2.</span> Generazione dei label</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 Generare il ranking \(r\) non è facile. Si può
@@ -652,8 +658,8 @@ Generare il ranking \(r\) non è facile. Si può
 </div>
 </div>
 
-<div id="outline-container-org850c526" class="outline-3">
-<h3 id="org850c526"><span class="section-number-3">6.3.</span> PageRank</h3>
+<div id="outline-container-orgd470942" class="outline-3">
+<h3 id="orgd470942"><span class="section-number-3">6.3.</span> PageRank</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 Algoritmo usato da Google per determinare un ranking delle pagine web da mostrare.
@@ -666,12 +672,12 @@ Funziona contando il numero e la qualità dei link a una pagina per stimare quan
 </div>
 </div>
 
-<div id="outline-container-orge7715eb" class="outline-2">
-<h2 id="orge7715eb"><span class="section-number-2">7.</span> Artificial Neural Networks</h2>
+<div id="outline-container-org4157f6c" class="outline-2">
+<h2 id="org4157f6c"><span class="section-number-2">7.</span> Artificial Neural Networks</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-orgd6bbbea" class="outline-3">
-<h3 id="orgd6bbbea"><span class="section-number-3">7.1.</span> Neurone artificiale</h3>
+<div id="outline-container-orgd1cca7d" class="outline-3">
+<h3 id="orgd1cca7d"><span class="section-number-3">7.1.</span> Neurone artificiale</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Un vero neurone è qualcosa con numerosi input (dendriti) e un solo output (assone).
@@ -681,8 +687,8 @@ Un vero neurone è qualcosa con numerosi input (dendriti) e un solo output (asso
 Allo stesso modo un neurone artificiale è una funzione di numerosi input (vettori e matrici)e un solo output. A differenza dei neuroni naturali, questi sono deterministici.
 </p>
 </div>
-<div id="outline-container-orga7fb1b4" class="outline-4">
-<h4 id="orga7fb1b4"><span class="section-number-4">7.1.1.</span> Apprendimento</h4>
+<div id="outline-container-org5d881cf" class="outline-4">
+<h4 id="org5d881cf"><span class="section-number-4">7.1.1.</span> Apprendimento</h4>
 <div class="outline-text-4" id="text-7-1-1">
 <ol class="org-ol">
 <li>Fai una predizione (Forward)</li>
@@ -694,8 +700,8 @@ Allo stesso modo un neurone artificiale è una funzione di numerosi input (vetto
 </div>
 </div>
 </div>
-<div id="outline-container-org6a8c554" class="outline-3">
-<h3 id="org6a8c554"><span class="section-number-3">7.2.</span> Deep Learning</h3>
+<div id="outline-container-orgaf802de" class="outline-3">
+<h3 id="orgaf802de"><span class="section-number-3">7.2.</span> Deep Learning</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 Utilizza molti layer nascosti di neuroni tra input e output, utilizzando il metodo <span class="underline">Gradient Descent</span> (con un <span class="underline">learning rate</span>) per trovare un minimo della funzione di <span class="underline">loss</span>, possibilmente un minimo globale. Si possono usare diverse strategie per ottimizzare il processo:
@@ -726,8 +732,8 @@ I Convolutional Neural Networks (CNN) sono delle reti particolari in cui all'int
 </p>
 </div>
 </div>
-<div id="outline-container-org0c5833e" class="outline-3">
-<h3 id="org0c5833e"><span class="section-number-3">7.3.</span> Overfitting</h3>
+<div id="outline-container-org7ba668f" class="outline-3">
+<h3 id="org7ba668f"><span class="section-number-3">7.3.</span> Overfitting</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
 Quando un Neural Network si adatta troppo ad un dataset, l'accuratezza del training aumenta ma l'accuratezza nel test diminuisce. Succede per varie ragioni:
@@ -746,16 +752,16 @@ Un dropout altro non è che scollegare un certo numero di neuroni a caso dalla r
 </p>
 </div>
 </div>
-<div id="outline-container-org2ebe2d1" class="outline-3">
-<h3 id="org2ebe2d1"><span class="section-number-3">7.4.</span> Transfer learning</h3>
+<div id="outline-container-org840bc7e" class="outline-3">
+<h3 id="org840bc7e"><span class="section-number-3">7.4.</span> Transfer learning</h3>
 <div class="outline-text-3" id="text-7-4">
 <p>
 Il processo di utilizzare uno o più layer di neuroni su cui è già stato fatto il training in un altro modello, facendo semplicemente un fine-tuning dei parametri in modo tale da poter cambiare obbiettivo in output o anche numero di classi in input.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdfbaa19" class="outline-3">
-<h3 id="orgdfbaa19"><span class="section-number-3">7.5.</span> 11 Raccomandazioni</h3>
+<div id="outline-container-org10ac054" class="outline-3">
+<h3 id="org10ac054"><span class="section-number-3">7.5.</span> 11 Raccomandazioni</h3>
 <div class="outline-text-3" id="text-7-5">
 <dl class="org-dl">
 <dt>Scegliere la misura della qualità all'inizio del lavoro</dt><dd>Cosa mi interessa che classifichi? Quanto accurata?</dd>
@@ -773,12 +779,12 @@ Il processo di utilizzare uno o più layer di neuroni su cui è già stato fatto
 </div>
 </div>
 </div>
-<div id="outline-container-org9758101" class="outline-2">
-<h2 id="org9758101"><span class="section-number-2">8.</span> Clustering</h2>
+<div id="outline-container-org87930f0" class="outline-2">
+<h2 id="org87930f0"><span class="section-number-2">8.</span> Clustering</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-orgdb2b81c" class="outline-3">
-<h3 id="orgdb2b81c"><span class="section-number-3">8.1.</span> Obbiettivi e misurazioni del clustering</h3>
+<div id="outline-container-orgdfe6040" class="outline-3">
+<h3 id="orgdfe6040"><span class="section-number-3">8.1.</span> Obbiettivi e misurazioni del clustering</h3>
 <div class="outline-text-3" id="text-8-1">
 <p>
 L'obbiettivo è raggruppare oggetti simili o relazionati tra loro e oggetti sufficentemente diversi in altri gruppi. L'analisi dei clustering serve a trovare similarità tra i dati.
@@ -811,15 +817,15 @@ Le distanze possono essere dipendenti (Minkowski) oppure invarianti (coseno, cor
 </p>
 </div>
 </div>
-<div id="outline-container-org65b029f" class="outline-3">
-<h3 id="org65b029f"><span class="section-number-3">8.2.</span> Approcci di partizionamento</h3>
+<div id="outline-container-orgfaed48e" class="outline-3">
+<h3 id="orgfaed48e"><span class="section-number-3">8.2.</span> Approcci di partizionamento</h3>
 <div class="outline-text-3" id="text-8-2">
 <p>
 Costruisce delle partizioni dei dati e le analissa basandosi su un criterio (chiamato la distanza). La soluzione esatta è un problema \(NP-hard\), quindi spesso si utilizza un approccio euristico: minimizzare una funzione obiettivo (come ad esempio minimizzare \(\sum_{a,b\in C} (d(b) - d(a))^2\), la somma dei quadrati delle distanze all'interno dello stesso cluster \(C\)).
 </p>
 </div>
-<div id="outline-container-orgb70421a" class="outline-4">
-<h4 id="orgb70421a"><span class="section-number-4">8.2.1.</span> k-Means</h4>
+<div id="outline-container-org5c4e4a4" class="outline-4">
+<h4 id="org5c4e4a4"><span class="section-number-4">8.2.1.</span> k-Means</h4>
 <div class="outline-text-4" id="text-8-2-1">
 <p>
 L'algoritmo consiste in questi passaggi:
@@ -838,21 +844,21 @@ L'algoritmo è molto efficiente ma è molto sensibile agli outlier e non funzion
 </p>
 </div>
 <ol class="org-ol">
-<li><a id="org6811798"></a>k-Means++<br />
+<li><a id="orgb52865a"></a>k-Means++<br />
 <div class="outline-text-5" id="text-8-2-1-1">
 <p>
 Una variazione dell'algoritmo k-Means,  dove nella fase iniziale scegli il primo centro random, scegliendo i rimanenti a distanza proporzionalmente crescente rispetto al centro più vicino (più distante è più probabile).
 </p>
 </div>
 </li>
-<li><a id="orgb0e4f33"></a>k-Medioids<br />
+<li><a id="orgc2dc17a"></a>k-Medioids<br />
 <div class="outline-text-5" id="text-8-2-1-2">
 <p>
 L'algoritmo è uguale al k-Means, solo che si utlizza un centro che è anche un punto del dataset; è un modo per renderlo più resistente agli outliers.
 </p>
 </div>
 </li>
-<li><a id="org52f133c"></a>Grafico a gomito (Elbow plot)<br />
+<li><a id="orgfd7857a"></a>Grafico a gomito (Elbow plot)<br />
 <div class="outline-text-5" id="text-8-2-1-3">
 <p>
 Strumento per determinare quale sia il valore di \(k\) ottimale da utilizzare. Si sceglie il \(k\) dopo il quale la differenza tra gli \(SSE\) non è vantaggiosa (ovvero "sul gomito" del grafico).
@@ -863,8 +869,8 @@ Strumento per determinare quale sia il valore di \(k\) ottimale da utilizzare. S
 </div>
 </div>
 
-<div id="outline-container-orga43a35a" class="outline-3">
-<h3 id="orga43a35a"><span class="section-number-3">8.3.</span> Approcci gerarchici</h3>
+<div id="outline-container-org697f449" class="outline-3">
+<h3 id="org697f449"><span class="section-number-3">8.3.</span> Approcci gerarchici</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 Si crea una decomposizione gerarchica del dataset per poi selezionare un certo numero di tagli del dataset. Anche questo metodo usa una distanza o una matrice di similarità.
@@ -875,8 +881,8 @@ L'approccio può essere agglomerativo (costruisce, bottom up) oppure divisivo (t
 </p>
 </div>
 
-<div id="outline-container-org2ae6863" class="outline-4">
-<h4 id="org2ae6863"><span class="section-number-4">8.3.1.</span> Hierarchical Agglomerative Cluster</h4>
+<div id="outline-container-org408bec7" class="outline-4">
+<h4 id="org408bec7"><span class="section-number-4">8.3.1.</span> Hierarchical Agglomerative Cluster</h4>
 <div class="outline-text-4" id="text-8-3-1">
 <ol class="org-ol">
 <li>Inizializza ogni punto come se fosse un cluster a sé stante;</li>
@@ -905,15 +911,15 @@ Per vedere come i cluster si agglomerano nel tempo, si utlizza un diagramma part
 </div>
 </div>
 </div>
-<div id="outline-container-orge227be0" class="outline-3">
-<h3 id="orge227be0"><span class="section-number-3">8.4.</span> Approcci di densità</h3>
+<div id="outline-container-org769c6a7" class="outline-3">
+<h3 id="org769c6a7"><span class="section-number-3">8.4.</span> Approcci di densità</h3>
 <div class="outline-text-3" id="text-8-4">
 <p>
 Questi approcci si basano sull'utilizzo di una funzione di densità e sulla connettività tra i punti. Il vantaggio è l'arbitrarietà delle forme dei cluster e una minore suggestività agli outlier.
 </p>
 </div>
-<div id="outline-container-org54a3ba2" class="outline-4">
-<h4 id="org54a3ba2"><span class="section-number-4">8.4.1.</span> DBSCAN</h4>
+<div id="outline-container-orgcf8127e" class="outline-4">
+<h4 id="orgcf8127e"><span class="section-number-4">8.4.1.</span> DBSCAN</h4>
 <div class="outline-text-4" id="text-8-4-1">
 <p>
 <span class="underline">Densitiy Based Spatial Clustering of Applications with Noise</span>.
@@ -923,13 +929,56 @@ Questi approcci si basano sull'utilizzo di una funzione di densità e sulla conn
 L'algoritmo seleziona i punti nelle regioni più dense e le unisce, scartando gli outlier.
 Definizioni varie:
 </p>
-<dl class="org-dl">
-<dt>Un punto è detto <span class="underline">core point</span> se ci sono almeno \(m\) punti con una distanza minore di \(\varepsilon\) dal punto</dt><dd></dd>
+<ul class="org-ul">
+<li>Un punto è detto <span class="underline">core point</span> se ci sono almeno \(m\) punti con una distanza minore di \(\varepsilon\) dal punto</li>
+<li>Un punto \(q\) è <span class="underline">direclty density reachable</span> da \(p\) se \(p\) è un <span class="underline">core point</span> e \(d(p,q)<\varepsilon\);</li>
+<li>Un punto \(q\) è <span class="underline">densitiy reachable</span> da \(p\) se esiste una successione di punti \(p_1, \dots, p_n\) che sono <span class="underline">directly density reachable</span> in successione tra loro;</li>
+<li>Un punto \(q\) è <span class="underline">density connected</span> a \(p\) se esiste un punto \(o\) tale che enteambi \(p,q\) sono <span class="underline">density reachable</span> da o.</li>
+<li>Un cluster è un insieme di punti <span class="underline">density connected</span>.</li>
+</ul>
 
-<dt>(no term)</dt><dd>Un punto \(q\) è <span class="underline">direclty density reachable</span> da \(p\) se \(p\) è un <span class="underline">core point</span> e \(d(p,q)<\varepsilon\);</dd>
-<dt>(no term)</dt><dd>Un punto \(q\) è <span class="underline">densitiy reachable</span> da \(p\) se esiste una successione di punti \(p_1, \dots, p_n\) che sono <span class="underline">directly density reachable</span> in successione tra loro;</dd>
-<dt>(no term)</dt><dd>Un punto \(q\) è <span class="underline">density connected</span> a \(p\) se esiste un punto \(o\) tale che enteambi \(p,q\) sono <span class="underline">density reachable</span> da o.</dd>
-<dt>(no term)</dt><dd>Un cluster è un insieme di punti <span class="underline">density connected</span>.</dd>
+<p>
+L'algoritmo ha complessità \(O(n \log n)\) se si utilizza un indicizzazione spaziale.
+</p>
+
+<p>
+Pro: L'algoritmo è poco sensibile al rumore e permette di avere cluster di forma qualsiasi, non solo circolare.
+</p>
+
+<p>
+Contro: L'algoritmo è più complesso nel senso che ci sono due iperparametri - Il numero minimo di punti \(m\) e il raggio \(\varepsilon\).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaee86ad" class="outline-3">
+<h3 id="orgaee86ad"><span class="section-number-3">8.5.</span> Valutazione dei clsuter</h3>
+<div class="outline-text-3" id="text-8-5">
+</div>
+<div id="outline-container-orge1514d6" class="outline-4">
+<h4 id="orge1514d6"><span class="section-number-4">8.5.1.</span> Intrinseca</h4>
+<div class="outline-text-4" id="text-8-5-1">
+<p>
+Non si sanno label e classi dei cluster, quindi è necessario valutare quanto simili sono i cluster tra loro e diversi dagli altri
+</p>
+<dl class="org-dl">
+<dt>Intra-class similarity</dt><dd>\(a(o_i) = \sum_C \frac{d(o_i, o_j)}{|C| - 1}\).</dd>
+<dt>Inter-class similarity</dt><dd>\(b(o_i) = \min_C\sum_C \frac{d(o_i, o_j)}{|C|}\).</dd>
+<dt>Coefficiente di silhouette</dt><dd>\(s(o_i) = \frac{b(o_i) - a(o_i)}{max(a(o_i), b(o_i))}\). Nota che \(s(o_i) \in [-1,1]\). Più alto è, meglio è</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org9ff2745" class="outline-4">
+<h4 id="org9ff2745"><span class="section-number-4">8.5.2.</span> Estrinseca</h4>
+<div class="outline-text-4" id="text-8-5-2">
+<p>
+Il valore dei label e classi è conosciuto.
+</p>
+
+<dl class="org-dl">
+<dt>Tabella di contingenza</dt><dd>True Negative \(T_-\), True Positive \(T_+\), False Negative \(F_-\), False Positive \(F_+\).</dd>
+<dt>Statistica rand</dt><dd>\(RAND = \frac{T_+ + T_-}{T_+ + T_- + F_+ + F_-}\).</dd>
+<dt>Coefficiente di Jaccard</dt><dd>\(JACC = \frac{T_+}{T_+ + F_+ + F_-}\)</dd>
 </dl>
 </div>
 </div>
@@ -938,7 +987,7 @@ Definizioni varie:
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Duskhorn</p>
-<p class="date">Created: 2024-01-22 Mon 12:32</p>
+<p class="date">Created: 2024-01-22 Mon 18:24</p>
 </div>
 </body>
 </html>
