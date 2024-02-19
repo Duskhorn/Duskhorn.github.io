@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-02-19 Mon 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Poisson equation, aka a simulation of a condenser</title>
+<meta name="author" content="Duskhorn" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Poisson equation, aka a simulation of a condenser</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org2e72450">1. Imports and type definitions</a>
+<ul>
+<li><a href="#orgb90f194">1.1. Utility functions</a>
+<ul>
+<li><a href="#orga66e78c">1.1.1. Matrix and numbers</a></li>
+<li><a href="#org5317eb7">1.1.2. Lattice initialization, print and export</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org520e692">2. Electric field calculation</a></li>
+<li><a href="#orgfa54606">3. Initial states examples</a></li>
+<li><a href="#org42d664b">4. Main algorithm</a>
+<ul>
+<li><a href="#org4277300">4.1. Problem setup</a></li>
+<li><a href="#orgfdcaa80">4.2. Gauss-Siedel algorithm</a></li>
+</ul>
+</li>
+<li><a href="#orgfcd00be">5. Putting the code together</a></li>
+<li><a href="#orgab6b1d8">6. Plotting</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2e72450" class="outline-2">
+<h2 id="org2e72450"><span class="section-number-2">1.</span> Imports and type definitions</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The first step is to declare the types responsible for storing the data.
+</p>
+
+<p>
+The <code>Matrix[T]</code> type encodes a two dimensional matrix into a single <code>array</code>. I decided to fix the grid size with constants <code>W</code> and <code>H</code>; I could have made this generic, but for this example this would have been overkill. 
+</p>
+
+<p>
+The <code>Lattice</code> type stores the Electric potential <code>v</code> and Electric field <code>e</code>; they're stored as xy matrices representing points on a xy plane. Remember that the ectric field is a vector field, hence why it has the <code>Matrix[(float64, float64)]</code> type.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nim" id="org15007ff">
+<span style="color: #fb4933;">import</span> math
+
+<span style="color: #fb4933;">const</span>
+  <span style="color: #d3869b;">W</span> = <span style="font-style: italic;">50</span>
+  <span style="color: #d3869b;">H</span> = <span style="font-style: italic;">50</span>
+
+<span style="color: #fb4933;">type</span> <span style="color: #d3869b;">Matrix</span>[<span style="color: #d3869b;">T</span>] = <span style="color: #d3869b;">array</span>[<span style="color: #d3869b;">W</span>*<span style="color: #d3869b;">H</span>, <span style="color: #d3869b;">T</span>]
+
+<span style="color: #fb4933;">type</span> <span style="color: #d3869b;">Lattice</span> = <span style="color: #fb4933;">object</span>
+    <span style="color: #fabd2f; font-weight: bold; font-style: italic;">v*</span>: <span style="color: #d3869b;">Matrix</span>[<span style="color: #d3869b;">float64</span>]
+    <span style="color: #fabd2f; font-weight: bold; font-style: italic;">e*</span>: <span style="color: #d3869b;">Matrix</span>[(<span style="color: #d3869b;">float64</span>, <span style="color: #d3869b;">float64</span>)]
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb90f194" class="outline-3">
+<h3 id="orgb90f194"><span class="section-number-3">1.1.</span> Utility functions</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orga66e78c" class="outline-4">
+<h4 id="orga66e78c"><span class="section-number-4">1.1.1.</span> Matrix and numbers</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+These are operator overoads for the square bracket access and assign.
+</p>
+
+<p>
+They're generic over the <code>T</code> parameter.
+</p>
+
+<p>
+The <code>average</code> function takes the neighbors of a cell in the position \((x,y)\) and outputs the average of the neighbors. It's used for the Gauss-Siedel algorithm below.
+</p>
+
+<p>
+The <code>squared</code> template ensures fast compile-time substitution of a power (allegedly faster than a power proc).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nim" id="org047428d">
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">`[]`</span>(l: <span style="color: #d3869b;">Matrix</span>, x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">Matrix</span>.<span style="color: #d3869b;">T</span> =
+  <span style="color: #fb4933;">return</span> l[x + y*<span style="color: #d3869b;">W</span>]
+
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">`[]=`</span>(l: <span style="color: #fb4933;">var</span> <span style="color: #d3869b;">Matrix</span>, x,y: <span style="color: #d3869b;">int</span>, val: <span style="color: #d3869b;">sink</span> <span style="color: #d3869b;">Matrix</span>.<span style="color: #d3869b;">T</span>) =
+    l[x + y*<span style="color: #d3869b;">W</span>] = val
+
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">average</span>[<span style="color: #d3869b;">T</span>: <span style="color: #d3869b;">SomeNumber</span>](v: <span style="color: #d3869b;">Matrix</span>[<span style="color: #d3869b;">T</span>], x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">T</span> = 
+  <span style="color: #fb4933;">return</span> <span style="font-style: italic;">0</span>.<span style="font-style: italic;">25</span> * (v[x-<span style="font-style: italic;">1</span>,y] + v[x+<span style="font-style: italic;">1</span>,y] + v[x,y-<span style="font-style: italic;">1</span>] + v[x,y+<span style="font-style: italic;">1</span>])
+
+<span style="color: #fb4933;">template</span> <span style="color: #fabd2f;">squared</span>(f: <span style="color: #d3869b;">SomeNumber</span>): <span style="color: #d3869b;">untyped</span> = f * f
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5317eb7" class="outline-4">
+<h4 id="org5317eb7"><span class="section-number-4">1.1.2.</span> Lattice initialization, print and export</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+The <code>initLattice</code> function takes another function of the distribution of the original charges as a parameter to initialize the lattice potential. This is also step 0 of the Gauss-Siedel algorithm used for the integration later.
+</p>
+
+<p>
+The <code>print</code> function can be used to console debug a lattice.
+</p>
+
+<p>
+The function <code>toFile</code> outputs the current lattice into two filenames, one for the electric field, the other for the potential. These files are used to draw the plot with gnuplot.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nim" id="orgbd850c7">
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">initLattice</span>(density: <span style="color: #fb4933;">proc</span> (x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span>): <span style="color: #d3869b;">Lattice</span> =
+    <span style="color: #fb4933;">var</span> <span style="color: #83a598;">init </span>= <span style="color: #d3869b;">Lattice</span>()
+    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">W</span>:
+      <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">H</span>:
+        init.v[x, y] = density(x, y)
+    <span style="color: #fb4933;">return</span> init
+
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">print</span>(l: <span style="color: #d3869b;">Lattice</span>) =
+    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">H</span>:
+      <span style="color: #fe8019;">echo</span> l.v[(y*<span style="color: #d3869b;">H</span>)..(y*<span style="color: #d3869b;">H</span> + <span style="color: #d3869b;">W</span>)]
+
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">toFile</span>(l: <span style="color: #d3869b;">Lattice</span>, filename: <span style="color: #d3869b;">string</span>) =
+  <span style="color: #fb4933;">var</span> <span style="color: #83a598;">f </span>= <span style="color: #fe8019;">open</span>(filename &amp; <span style="color: #b8bb26;">".dat"</span>, fmWrite)
+  <span style="color: #fb4933;">var</span> <span style="color: #83a598;">e </span>= <span style="color: #fe8019;">open</span>(filename &amp; <span style="color: #b8bb26;">"_e.dat"</span>, fmWrite)
+  <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">W</span>:
+    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">H</span>:
+      f.<span style="color: #fe8019;">write</span>(l.v[x,y], <span style="color: #b8bb26;">" "</span>)
+      <span style="color: #fb4933;">let</span> (ex, ey) = l.e[x,y]
+      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">lx </span>= sqrt(ex*ex + ey*ey)
+      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">alpha </span>= arctan2(ey, ex)
+      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">dx </span>= <span style="color: #fb4933;">if</span> lx == <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>: <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span> <span style="color: #fb4933;">else</span>: ex/lx
+      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">dy </span>= <span style="color: #fb4933;">if</span> lx == <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>: <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span> <span style="color: #fb4933;">else</span>: ey/lx
+      e.<span style="color: #fe8019;">writeLine</span>(x, <span style="color: #b8bb26;">" "</span>, y, <span style="color: #b8bb26;">" "</span>, dx, <span style="color: #b8bb26;">" "</span>, dy, <span style="color: #b8bb26;">" "</span>, lx)
+    f.<span style="color: #fe8019;">write</span>(<span style="color: #b8bb26;">"\n"</span>)
+  f.<span style="color: #fe8019;">close</span>()
+  e.<span style="color: #fe8019;">close</span>()
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org520e692" class="outline-2">
+<h2 id="org520e692"><span class="section-number-2">2.</span> Electric field calculation</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+This function uses the forward difference method to calculate the electric field from the electric potential.
+Recall that the relationship between the electric field and potential is:
+</p>
+
+<p>
+\[ \vec{E} = -\nabla V = \left(-\frac{\partial V}{\partial x} , -\frac{\partial V}{\partial y}\right)\]
+</p>
+
+<p>
+Thus the two partial derivatives can be discretized using a simple partial difference operator \(\Delta_h\) with step size \(h=1\): 
+</p>
+
+<p>
+\[E_x = \Delta_1(-V)_x = - (V_{x+1} - V_x) = V_x - V_{x+1}\]
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nim" id="org8d0f469">
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">generateEField*</span>(f: <span style="color: #fb4933;">var</span> <span style="color: #d3869b;">Lattice</span>) =
+  <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;<span style="color: #d3869b;">W</span>:
+    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;<span style="color: #d3869b;">H</span>:
+      f.e[x,y] = (f.v[x-<span style="font-style: italic;">1</span>, y] - f.v[x,y] , f.v[x, y-<span style="font-style: italic;">1</span>] - f.v[x, y])
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfa54606" class="outline-2">
+<h2 id="orgfa54606"><span class="section-number-2">3.</span> Initial states examples</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<code>oppositeChargedPlates</code> simulates a condenser with one positive charged plate and another negatively charged plate. The plates are finite to allow the visualization of a border effect.
+</p>
+
+<p>
+<code>singleCharge</code> simulates a single charge in the middle of the plane.
+</p>
+
+<p>
+<code>oppositeChargesOnDiagonal</code> puts two strong opposite charges on one diagonal.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nim" id="org1ab308c">
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">oppositeChargedPlates*</span>(x, y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span> =
+  <span style="color: #fb4933;">if</span> x &gt;= (<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>) <span style="color: #fe8019;">and</span> x &lt;= (<span style="font-style: italic;">4</span>*<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>):
+    <span style="color: #fb4933;">if</span> y == (<span style="font-style: italic;">2</span>*<span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>): <span style="color: #fb4933;">return</span> <span style="font-style: italic;">100</span>.<span style="font-style: italic;">0</span>
+    <span style="color: #fb4933;">elif</span> y == (<span style="font-style: italic;">3</span>*<span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>): <span style="color: #fb4933;">return</span> -<span style="font-style: italic;">100</span>.<span style="font-style: italic;">0</span>
+  <span style="color: #fb4933;">else</span>: <span style="color: #fb4933;">return</span> <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>
+
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">singleCharge*</span>(x, y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span> =
+  <span style="color: #fb4933;">if</span> (x == <span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">2</span>) <span style="color: #fe8019;">and</span> (y == <span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">2</span>): <span style="color: #fb4933;">return</span> <span style="font-style: italic;">100</span>.<span style="font-style: italic;">0</span>
+  <span style="color: #fb4933;">else</span>: <span style="color: #fb4933;">return</span> <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>
+
+<span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">oppositeChargesOnDiagonal*</span>(x, y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span> =
+  <span style="color: #fb4933;">if</span> (x == <span style="font-style: italic;">2</span>*<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>) <span style="color: #fe8019;">and</span> (y == <span style="font-style: italic;">2</span>*<span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>): <span style="color: #fb4933;">return</span> <span style="font-style: italic;">1000</span>.<span style="font-style: italic;">0</span>
+  <span style="color: #fb4933;">elif</span> (x == <span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>) <span style="color: #fe8019;">and</span> (y == <span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>): <span style="color: #fb4933;">return</span> -<span style="font-style: italic;">1000</span>.<span style="font-style: italic;">0</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org42d664b" class="outline-2">
+<h2 id="org42d664b"><span class="section-number-2">4.</span> Main algorithm</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org4277300" class="outline-3">
+<h3 id="org4277300"><span class="section-number-3">4.1.</span> Problem setup</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+We simulate the condenser setup (<code>oppositeChargedPlates</code>), setting an alias of <code>density</code> to the function.
+Secondly, we initalize the lattice with the chosen charged density function, we set the initial <code>diff</code> error and the ending <code>tolerance</code>.
+</p>
+
+<p>
+We save the initial configuration to the <code>start.dat</code> file. Note that, since we didn't calculate the elecric field, the <code>start_e.dat</code> file is pretty useless.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nim" id="org238bc42">
+<span style="color: #fb4933;">let</span> <span style="color: #83a598;">density </span>= oppositeChargedPlates
+
+<span style="color: #fb4933;">var</span>
+  field = initLattice(density)
+  diff = <span style="font-style: italic;">1</span>.<span style="font-style: italic;">0</span>
+  i = <span style="font-style: italic;">0</span>
+
+<span style="color: #fb4933;">const</span> <span style="color: #83a598;">tolerance </span>= 1e-<span style="font-style: italic;">5</span>
+
+field.toFile(<span style="color: #b8bb26;">"start"</span>)
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfdcaa80" class="outline-3">
+<h3 id="orgfdcaa80"><span class="section-number-3">4.2.</span> Gauss-Siedel algorithm</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+The algorithm is an iterative algorithm that tries to increase accuracy until convegence to a set <code>tolerance</code>.
+</p>
+
+<p>
+In particular, we want to solve the following PDE for a given <code>density</code> \(\rho(x,y)\):
+</p>
+
+<p>
+\[ \nabla^2V(x,y) = -\rho(x,y) \quad\Longleftrightarrow\quad \frac{\partial^2 V}{\partial x^2} + \frac{\partial^2 V}{\partial y^2} = -\rho(x,y)\]
+</p>
+
+<p>
+Using partial differences the problem discretizes, after some calulations, to:
+</p>
+
+
+<p>
+\[V^{(t+1)}_{x,y} = \frac{1}{4}\left(V^{(t)}_{x+h, y} + V^{(t)}_{x-h, y} + V^{(t)}_{x, y+h} + V^{(t)}_{x. y-h}\right) + \rho(x,y)\]
+</p>
+
+<p>
+Where whe set constants equal to 1 to simplify the numerical problem; \(V^{(t)}\) is the potential at time step \(t\), and a grid size of \(h=1\) was chosen, as before.
+</p>
+
+<p>
+After this updating step, we also update the error term.
+In order to calculate this error we employ a standard matrix Frobenius norm, updating the error if it's less than the previous error:
+</p>
+
+<p>
+\[||V^{(t)} - V^{(y+1)}|| = \sum_i\sum_j \left(V^{(t)}_{ij} - V^{(t+1)}_{ij}\right)^2\]
+</p>
+
+<p>
+The error should always be decreasing, since for this particular problem the Gauss-Siedel algorithm converges. A sanity check is employed nonetheless.
+</p>
+
+<p>
+After the iterating algorithm is over, the electric field is calculated and the files are saved.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nim" id="org3ee85ff">
+<span style="color: #fb4933;">while</span> diff &gt; tolerance:
+  <span style="color: #fb4933;">if</span> i &gt; <span style="font-style: italic;">15000</span>:
+    <span style="color: #fe8019;">echo</span> <span style="color: #b8bb26;">"solution didn't converge; err = "</span> &amp; $diff
+    <span style="color: #fb4933;">break</span>
+
+  <span style="color: #fb4933;">var</span>
+    newField = field
+    errSquared = <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>
+
+  <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;(<span style="color: #d3869b;">W</span>-<span style="font-style: italic;">1</span>):
+    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;(<span style="color: #d3869b;">H</span>-<span style="font-style: italic;">1</span>):
+      newField.v[x,y] = field.v.average(x,y) + density(x,y)
+      errSquared += (newField.v[x,y] - field.v[x,y]).squared()
+
+  diff = <span style="color: #fe8019;">min</span>(diff, <span style="color: #fe8019;">abs</span>(diff - sqrt(errSquared)))
+  field = newField
+  <span style="color: #fe8019;">inc</span> i
+
+<span style="color: #fe8019;">echo</span> <span style="color: #b8bb26;">"The algorithm converged after "</span> &amp; $i &amp; <span style="color: #b8bb26;">" steps"</span>
+field.generateEField()
+field.toFile(<span style="color: #b8bb26;">"ending"</span>)
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfcd00be" class="outline-2">
+<h2 id="orgfcd00be"><span class="section-number-2">5.</span> Putting the code together</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-nim"><span class="linenr">  1: </span>
+<span class="linenr">  2: </span><span style="color: #fb4933;">import</span> math
+<span class="linenr">  3: </span>
+<span class="linenr">  4: </span><span style="color: #fb4933;">const</span>
+<span class="linenr">  5: </span>  <span style="color: #d3869b;">W</span> = <span style="font-style: italic;">50</span>
+<span class="linenr">  6: </span>  <span style="color: #d3869b;">H</span> = <span style="font-style: italic;">50</span>
+<span class="linenr">  7: </span>
+<span class="linenr">  8: </span><span style="color: #fb4933;">type</span> <span style="color: #d3869b;">Matrix</span>[<span style="color: #d3869b;">T</span>] = <span style="color: #d3869b;">array</span>[<span style="color: #d3869b;">W</span>*<span style="color: #d3869b;">H</span>, <span style="color: #d3869b;">T</span>]
+<span class="linenr">  9: </span>
+<span class="linenr"> 10: </span><span style="color: #fb4933;">type</span> <span style="color: #d3869b;">Lattice</span> = <span style="color: #fb4933;">object</span>
+<span class="linenr"> 11: </span>    <span style="color: #fabd2f; font-weight: bold; font-style: italic;">v*</span>: <span style="color: #d3869b;">Matrix</span>[<span style="color: #d3869b;">float64</span>]
+<span class="linenr"> 12: </span>    <span style="color: #fabd2f; font-weight: bold; font-style: italic;">e*</span>: <span style="color: #d3869b;">Matrix</span>[(<span style="color: #d3869b;">float64</span>, <span style="color: #d3869b;">float64</span>)]
+<span class="linenr"> 13: </span>
+<span class="linenr"> 14: </span>
+<span class="linenr"> 15: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">`[]`</span>(l: <span style="color: #d3869b;">Matrix</span>, x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">Matrix</span>.<span style="color: #d3869b;">T</span> =
+<span class="linenr"> 16: </span>  <span style="color: #fb4933;">return</span> l[x + y*<span style="color: #d3869b;">W</span>]
+<span class="linenr"> 17: </span>
+<span class="linenr"> 18: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">`[]=`</span>(l: <span style="color: #fb4933;">var</span> <span style="color: #d3869b;">Matrix</span>, x,y: <span style="color: #d3869b;">int</span>, val: <span style="color: #d3869b;">sink</span> <span style="color: #d3869b;">Matrix</span>.<span style="color: #d3869b;">T</span>) =
+<span class="linenr"> 19: </span>    l[x + y*<span style="color: #d3869b;">W</span>] = val
+<span class="linenr"> 20: </span>
+<span class="linenr"> 21: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">average</span>[<span style="color: #d3869b;">T</span>: <span style="color: #d3869b;">SomeNumber</span>](v: <span style="color: #d3869b;">Matrix</span>[<span style="color: #d3869b;">T</span>], x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">T</span> = 
+<span class="linenr"> 22: </span>  <span style="color: #fb4933;">return</span> <span style="font-style: italic;">0</span>.<span style="font-style: italic;">25</span> * (v[x-<span style="font-style: italic;">1</span>,y] + v[x+<span style="font-style: italic;">1</span>,y] + v[x,y-<span style="font-style: italic;">1</span>] + v[x,y+<span style="font-style: italic;">1</span>])
+<span class="linenr"> 23: </span>
+<span class="linenr"> 24: </span><span style="color: #fb4933;">template</span> <span style="color: #fabd2f;">squared</span>(f: <span style="color: #d3869b;">SomeNumber</span>): <span style="color: #d3869b;">untyped</span> = f * f
+<span class="linenr"> 25: </span>
+<span class="linenr"> 26: </span>
+<span class="linenr"> 27: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">initLattice</span>(density: <span style="color: #fb4933;">proc</span> (x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span>): <span style="color: #d3869b;">Lattice</span> =
+<span class="linenr"> 28: </span>    <span style="color: #fb4933;">var</span> <span style="color: #83a598;">init </span>= <span style="color: #d3869b;">Lattice</span>()
+<span class="linenr"> 29: </span>    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">W</span>:
+<span class="linenr"> 30: </span>      <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">H</span>:
+<span class="linenr"> 31: </span>        init.v[x, y] = density(x, y)
+<span class="linenr"> 32: </span>    <span style="color: #fb4933;">return</span> init
+<span class="linenr"> 33: </span>
+<span class="linenr"> 34: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">print</span>(l: <span style="color: #d3869b;">Lattice</span>) =
+<span class="linenr"> 35: </span>    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">H</span>:
+<span class="linenr"> 36: </span>      <span style="color: #fe8019;">echo</span> l.v[(y*<span style="color: #d3869b;">H</span>)..(y*<span style="color: #d3869b;">H</span> + <span style="color: #d3869b;">W</span>)]
+<span class="linenr"> 37: </span>
+<span class="linenr"> 38: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">toFile</span>(l: <span style="color: #d3869b;">Lattice</span>, filename: <span style="color: #d3869b;">string</span>) =
+<span class="linenr"> 39: </span>  <span style="color: #fb4933;">var</span> <span style="color: #83a598;">f </span>= <span style="color: #fe8019;">open</span>(filename &amp; <span style="color: #b8bb26;">".dat"</span>, fmWrite)
+<span class="linenr"> 40: </span>  <span style="color: #fb4933;">var</span> <span style="color: #83a598;">e </span>= <span style="color: #fe8019;">open</span>(filename &amp; <span style="color: #b8bb26;">"_e.dat"</span>, fmWrite)
+<span class="linenr"> 41: </span>  <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">W</span>:
+<span class="linenr"> 42: </span>    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">H</span>:
+<span class="linenr"> 43: </span>      f.<span style="color: #fe8019;">write</span>(l.v[x,y], <span style="color: #b8bb26;">" "</span>)
+<span class="linenr"> 44: </span>      <span style="color: #fb4933;">let</span> (ex, ey) = l.e[x,y]
+<span class="linenr"> 45: </span>      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">lx </span>= sqrt(ex*ex + ey*ey)
+<span class="linenr"> 46: </span>      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">alpha </span>= arctan2(ey, ex)
+<span class="linenr"> 47: </span>      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">dx </span>= <span style="color: #fb4933;">if</span> lx == <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>: <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span> <span style="color: #fb4933;">else</span>: ex/lx
+<span class="linenr"> 48: </span>      <span style="color: #fb4933;">let</span> <span style="color: #83a598;">dy </span>= <span style="color: #fb4933;">if</span> lx == <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>: <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span> <span style="color: #fb4933;">else</span>: ey/lx
+<span class="linenr"> 49: </span>      e.<span style="color: #fe8019;">writeLine</span>(x, <span style="color: #b8bb26;">" "</span>, y, <span style="color: #b8bb26;">" "</span>, dx, <span style="color: #b8bb26;">" "</span>, dy, <span style="color: #b8bb26;">" "</span>, lx)
+<span class="linenr"> 50: </span>    f.<span style="color: #fe8019;">write</span>(<span style="color: #b8bb26;">"\n"</span>)
+<span class="linenr"> 51: </span>  f.<span style="color: #fe8019;">close</span>()
+<span class="linenr"> 52: </span>  e.<span style="color: #fe8019;">close</span>()
+<span class="linenr"> 53: </span>
+<span class="linenr"> 54: </span>
+<span class="linenr"> 55: </span>
+<span class="linenr"> 56: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">generateEField*</span>(f: <span style="color: #fb4933;">var</span> <span style="color: #d3869b;">Lattice</span>) =
+<span class="linenr"> 57: </span>  <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;<span style="color: #d3869b;">W</span>:
+<span class="linenr"> 58: </span>    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;<span style="color: #d3869b;">H</span>:
+<span class="linenr"> 59: </span>      f.e[x,y] = (f.v[x-<span style="font-style: italic;">1</span>, y] - f.v[x,y] , f.v[x, y-<span style="font-style: italic;">1</span>] - f.v[x, y])
+<span class="linenr"> 60: </span>
+<span class="linenr"> 61: </span>
+<span class="linenr"> 62: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">oppositeChargedPlates*</span>(x, y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span> =
+<span class="linenr"> 63: </span>  <span style="color: #fb4933;">if</span> x &gt;= (<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>) <span style="color: #fe8019;">and</span> x &lt;= (<span style="font-style: italic;">4</span>*<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>):
+<span class="linenr"> 64: </span>    <span style="color: #fb4933;">if</span> y == (<span style="font-style: italic;">2</span>*<span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>): <span style="color: #fb4933;">return</span> <span style="font-style: italic;">100</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 65: </span>    <span style="color: #fb4933;">elif</span> y == (<span style="font-style: italic;">3</span>*<span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>): <span style="color: #fb4933;">return</span> -<span style="font-style: italic;">100</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 66: </span>  <span style="color: #fb4933;">else</span>: <span style="color: #fb4933;">return</span> <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 67: </span>
+<span class="linenr"> 68: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">singleCharge*</span>(x, y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span> =
+<span class="linenr"> 69: </span>  <span style="color: #fb4933;">if</span> (x == <span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">2</span>) <span style="color: #fe8019;">and</span> (y == <span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">2</span>): <span style="color: #fb4933;">return</span> <span style="font-style: italic;">100</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 70: </span>  <span style="color: #fb4933;">else</span>: <span style="color: #fb4933;">return</span> <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 71: </span>
+<span class="linenr"> 72: </span><span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">oppositeChargesOnDiagonal*</span>(x, y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span> =
+<span class="linenr"> 73: </span>  <span style="color: #fb4933;">if</span> (x == <span style="font-style: italic;">2</span>*<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>) <span style="color: #fe8019;">and</span> (y == <span style="font-style: italic;">2</span>*<span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>): <span style="color: #fb4933;">return</span> <span style="font-style: italic;">1000</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 74: </span>  <span style="color: #fb4933;">elif</span> (x == <span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>) <span style="color: #fe8019;">and</span> (y == <span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">3</span>): <span style="color: #fb4933;">return</span> -<span style="font-style: italic;">1000</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 75: </span>
+<span class="linenr"> 76: </span>
+<span class="linenr"> 77: </span>
+<span class="linenr"> 78: </span><span style="color: #fb4933;">let</span> <span style="color: #83a598;">density </span>= oppositeChargedPlates
+<span class="linenr"> 79: </span>
+<span class="linenr"> 80: </span><span style="color: #fb4933;">var</span>
+<span class="linenr"> 81: </span>  field = initLattice(density)
+<span class="linenr"> 82: </span>  diff = <span style="font-style: italic;">1</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 83: </span>  i = <span style="font-style: italic;">0</span>
+<span class="linenr"> 84: </span>
+<span class="linenr"> 85: </span><span style="color: #fb4933;">const</span> <span style="color: #83a598;">tolerance </span>= 1e-<span style="font-style: italic;">5</span>
+<span class="linenr"> 86: </span>
+<span class="linenr"> 87: </span>field.toFile(<span style="color: #b8bb26;">"start"</span>)
+<span class="linenr"> 88: </span>
+<span class="linenr"> 89: </span>
+<span class="linenr"> 90: </span><span style="color: #fb4933;">while</span> diff &gt; tolerance:
+<span class="linenr"> 91: </span>  <span style="color: #fb4933;">if</span> i &gt; <span style="font-style: italic;">15000</span>:
+<span class="linenr"> 92: </span>    <span style="color: #fe8019;">echo</span> <span style="color: #b8bb26;">"solution didn't converge; err = "</span> &amp; $diff
+<span class="linenr"> 93: </span>    <span style="color: #fb4933;">break</span>
+<span class="linenr"> 94: </span>
+<span class="linenr"> 95: </span>  <span style="color: #fb4933;">var</span>
+<span class="linenr"> 96: </span>    newField = field
+<span class="linenr"> 97: </span>    errSquared = <span style="font-style: italic;">0</span>.<span style="font-style: italic;">0</span>
+<span class="linenr"> 98: </span>
+<span class="linenr"> 99: </span>  <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;(<span style="color: #d3869b;">W</span>-<span style="font-style: italic;">1</span>):
+<span class="linenr">100: </span>    <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;(<span style="color: #d3869b;">H</span>-<span style="font-style: italic;">1</span>):
+<span class="linenr">101: </span>      newField.v[x,y] = field.v.average(x,y) + density(x,y)
+<span class="linenr">102: </span>      errSquared += (newField.v[x,y] - field.v[x,y]).squared()
+<span class="linenr">103: </span>
+<span class="linenr">104: </span>  diff = <span style="color: #fe8019;">min</span>(diff, <span style="color: #fe8019;">abs</span>(diff - sqrt(errSquared)))
+<span class="linenr">105: </span>  field = newField
+<span class="linenr">106: </span>  <span style="color: #fe8019;">inc</span> i
+<span class="linenr">107: </span>
+<span class="linenr">108: </span><span style="color: #fe8019;">echo</span> <span style="color: #b8bb26;">"The algorithm converged after "</span> &amp; $i &amp; <span style="color: #b8bb26;">" steps"</span>
+<span class="linenr">109: </span>field.generateEField()
+<span class="linenr">110: </span>field.toFile(<span style="color: #b8bb26;">"ending"</span>)
+<span class="linenr">111: </span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgab6b1d8" class="outline-2">
+<h2 id="orgab6b1d8"><span class="section-number-2">6.</span> Plotting</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Using Gnuplot to plot the potential and the electric field
+</p>
+<div class="org-src-container">
+<pre class="src src-gnuplot" id="orgabd9850"><span style="color: #d3869b;">set</span> terminal png size 1200,900 enhanced
+<span style="color: #d3869b;">set</span> output <span style="color: #b8bb26;">'potential.png'</span>
+
+<span style="color: #d3869b;">set</span> <span style="color: #fabd2f;">pm3d</span> at bs
+<span style="color: #d3869b;">set</span> hidden3d
+<span style="color: #d3869b;">set</span> size ratio 1
+
+<span style="color: #d3869b;">set</span> multiplot layout 1,2
+
+<span style="color: #fb4933;">splot</span> <span style="color: #b8bb26;">'ending.dat'</span> <span style="color: #d3869b;">matrix</span> <span style="color: #d3869b;">with</span> p
+<span style="color: #fb4933;">plot</span> <span style="color: #b8bb26;">'ending_e.dat'</span> <span style="color: #d3869b;">using</span> 1:2:3:4:5 <span style="color: #d3869b;">with</span> <span style="color: #fabd2f;">vectors</span> lc palette
+<span style="color: #d3869b;">reset</span> <span style="color: #7c6f64;">#</span><span style="color: #7c6f64;">workaround for babel tangle, ignore</span>
+</pre>
+</div>
+
+
+<div id="org24045b2" class="figure">
+<p><img src="potential.png" alt="potential.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Duskhorn</p>
+<p class="date">Created: 2024-02-19 Mon 18:25</p>
+</div>
+</body>
+</html>
