@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-02-19 Mon 18:25 -->
+<!-- 2024-02-21 Wed 09:44 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Poisson equation, aka a simulation of a condenser</title>
@@ -233,32 +233,31 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2e72450">1. Imports and type definitions</a>
+<li><a href="#orgde1abea">1. Imports and type definitions</a>
 <ul>
-<li><a href="#orgb90f194">1.1. Utility functions</a>
+<li><a href="#orgd59ab2b">1.1. Utility functions</a>
 <ul>
-<li><a href="#orga66e78c">1.1.1. Matrix and numbers</a></li>
-<li><a href="#org5317eb7">1.1.2. Lattice initialization, print and export</a></li>
+<li><a href="#orgf88f279">1.1.1. Matrix and numbers</a></li>
+<li><a href="#org20986b3">1.1.2. Lattice initialization, print and export</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org520e692">2. Electric field calculation</a></li>
-<li><a href="#orgfa54606">3. Initial states examples</a></li>
-<li><a href="#org42d664b">4. Main algorithm</a>
+<li><a href="#org0de0f05">2. Electric field calculation</a></li>
+<li><a href="#org651f394">3. Initial states examples</a></li>
+<li><a href="#orgf6ef588">4. Main algorithm</a>
 <ul>
-<li><a href="#org4277300">4.1. Problem setup</a></li>
-<li><a href="#orgfdcaa80">4.2. Gauss-Siedel algorithm</a></li>
+<li><a href="#org6cf9664">4.1. Problem setup</a></li>
+<li><a href="#org33eabff">4.2. Gauss-Siedel algorithm</a></li>
 </ul>
 </li>
-<li><a href="#orgfcd00be">5. Putting the code together</a></li>
-<li><a href="#orgab6b1d8">6. Plotting</a></li>
+<li><a href="#org3ba9432">5. Putting the code together</a></li>
+<li><a href="#org1814d0d">6. Plotting</a></li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org2e72450" class="outline-2">
-<h2 id="org2e72450"><span class="section-number-2">1.</span> Imports and type definitions</h2>
+<div id="outline-container-orgde1abea" class="outline-2">
+<h2 id="orgde1abea"><span class="section-number-2">1.</span> Imports and type definitions</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The first step is to declare the types responsible for storing the data.
@@ -273,7 +272,7 @@ The <code>Lattice</code> type stores the Electric potential <code>v</code> and E
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nim" id="org15007ff">
+<pre class="src src-nim" id="org8f19453">
 <span style="color: #fb4933;">import</span> math
 
 <span style="color: #fb4933;">const</span>
@@ -290,12 +289,12 @@ The <code>Lattice</code> type stores the Electric potential <code>v</code> and E
 </div>
 </div>
 
-<div id="outline-container-orgb90f194" class="outline-3">
-<h3 id="orgb90f194"><span class="section-number-3">1.1.</span> Utility functions</h3>
+<div id="outline-container-orgd59ab2b" class="outline-3">
+<h3 id="orgd59ab2b"><span class="section-number-3">1.1.</span> Utility functions</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-orga66e78c" class="outline-4">
-<h4 id="orga66e78c"><span class="section-number-4">1.1.1.</span> Matrix and numbers</h4>
+<div id="outline-container-orgf88f279" class="outline-4">
+<h4 id="orgf88f279"><span class="section-number-4">1.1.1.</span> Matrix and numbers</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 These are operator overoads for the square bracket access and assign.
@@ -314,7 +313,7 @@ The <code>squared</code> template ensures fast compile-time substitution of a po
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nim" id="org047428d">
+<pre class="src src-nim" id="org5a2693b">
 <span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">`[]`</span>(l: <span style="color: #d3869b;">Matrix</span>, x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">Matrix</span>.<span style="color: #d3869b;">T</span> =
   <span style="color: #fb4933;">return</span> l[x + y*<span style="color: #d3869b;">W</span>]
 
@@ -331,8 +330,8 @@ The <code>squared</code> template ensures fast compile-time substitution of a po
 </div>
 </div>
 
-<div id="outline-container-org5317eb7" class="outline-4">
-<h4 id="org5317eb7"><span class="section-number-4">1.1.2.</span> Lattice initialization, print and export</h4>
+<div id="outline-container-org20986b3" class="outline-4">
+<h4 id="org20986b3"><span class="section-number-4">1.1.2.</span> Lattice initialization, print and export</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 The <code>initLattice</code> function takes another function of the distribution of the original charges as a parameter to initialize the lattice potential. This is also step 0 of the Gauss-Siedel algorithm used for the integration later.
@@ -347,7 +346,7 @@ The function <code>toFile</code> outputs the current lattice into two filenames,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nim" id="orgbd850c7">
+<pre class="src src-nim" id="org6ae00f6">
 <span style="color: #fb4933;">proc</span> <span style="color: #fabd2f;">initLattice</span>(density: <span style="color: #fb4933;">proc</span> (x,y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span>): <span style="color: #d3869b;">Lattice</span> =
     <span style="color: #fb4933;">var</span> <span style="color: #83a598;">init </span>= <span style="color: #d3869b;">Lattice</span>()
     <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">0</span>..&lt;<span style="color: #d3869b;">W</span>:
@@ -382,8 +381,8 @@ The function <code>toFile</code> outputs the current lattice into two filenames,
 </div>
 </div>
 
-<div id="outline-container-org520e692" class="outline-2">
-<h2 id="org520e692"><span class="section-number-2">2.</span> Electric field calculation</h2>
+<div id="outline-container-org0de0f05" class="outline-2">
+<h2 id="org0de0f05"><span class="section-number-2">2.</span> Electric field calculation</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 This function uses the forward difference method to calculate the electric field from the electric potential.
@@ -403,7 +402,7 @@ Thus the two partial derivatives can be discretized using a simple partial diffe
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nim" id="org8d0f469">
+<pre class="src src-nim" id="org330c02d">
 <span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">generateEField*</span>(f: <span style="color: #fb4933;">var</span> <span style="color: #d3869b;">Lattice</span>) =
   <span style="color: #fb4933;">for</span> x <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;<span style="color: #d3869b;">W</span>:
     <span style="color: #fb4933;">for</span> y <span style="color: #fb4933;">in</span> <span style="font-style: italic;">1</span>..&lt;<span style="color: #d3869b;">H</span>:
@@ -414,8 +413,8 @@ Thus the two partial derivatives can be discretized using a simple partial diffe
 </div>
 </div>
 
-<div id="outline-container-orgfa54606" class="outline-2">
-<h2 id="orgfa54606"><span class="section-number-2">3.</span> Initial states examples</h2>
+<div id="outline-container-org651f394" class="outline-2">
+<h2 id="org651f394"><span class="section-number-2">3.</span> Initial states examples</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 <code>oppositeChargedPlates</code> simulates a condenser with one positive charged plate and another negatively charged plate. The plates are finite to allow the visualization of a border effect.
@@ -430,7 +429,7 @@ Thus the two partial derivatives can be discretized using a simple partial diffe
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nim" id="org1ab308c">
+<pre class="src src-nim" id="org94b7461">
 <span style="color: #fb4933;">proc</span> <span style="color: #fabd2f; font-weight: bold; font-style: italic;">oppositeChargedPlates*</span>(x, y: <span style="color: #d3869b;">int</span>): <span style="color: #d3869b;">float64</span> =
   <span style="color: #fb4933;">if</span> x &gt;= (<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>) <span style="color: #fe8019;">and</span> x &lt;= (<span style="font-style: italic;">4</span>*<span style="color: #d3869b;">W</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>):
     <span style="color: #fb4933;">if</span> y == (<span style="font-style: italic;">2</span>*<span style="color: #d3869b;">H</span> <span style="color: #fe8019;">div</span> <span style="font-style: italic;">5</span>): <span style="color: #fb4933;">return</span> <span style="font-style: italic;">100</span>.<span style="font-style: italic;">0</span>
@@ -450,12 +449,12 @@ Thus the two partial derivatives can be discretized using a simple partial diffe
 </div>
 </div>
 
-<div id="outline-container-org42d664b" class="outline-2">
-<h2 id="org42d664b"><span class="section-number-2">4.</span> Main algorithm</h2>
+<div id="outline-container-orgf6ef588" class="outline-2">
+<h2 id="orgf6ef588"><span class="section-number-2">4.</span> Main algorithm</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org4277300" class="outline-3">
-<h3 id="org4277300"><span class="section-number-3">4.1.</span> Problem setup</h3>
+<div id="outline-container-org6cf9664" class="outline-3">
+<h3 id="org6cf9664"><span class="section-number-3">4.1.</span> Problem setup</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 We simulate the condenser setup (<code>oppositeChargedPlates</code>), setting an alias of <code>density</code> to the function.
@@ -467,7 +466,7 @@ We save the initial configuration to the <code>start.dat</code> file. Note that,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nim" id="org238bc42">
+<pre class="src src-nim" id="orgc420ab3">
 <span style="color: #fb4933;">let</span> <span style="color: #83a598;">density </span>= oppositeChargedPlates
 
 <span style="color: #fb4933;">var</span>
@@ -484,8 +483,8 @@ field.toFile(<span style="color: #b8bb26;">"start"</span>)
 </div>
 </div>
 
-<div id="outline-container-orgfdcaa80" class="outline-3">
-<h3 id="orgfdcaa80"><span class="section-number-3">4.2.</span> Gauss-Siedel algorithm</h3>
+<div id="outline-container-org33eabff" class="outline-3">
+<h3 id="org33eabff"><span class="section-number-3">4.2.</span> Gauss-Siedel algorithm</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 The algorithm is an iterative algorithm that tries to increase accuracy until convegence to a set <code>tolerance</code>.
@@ -530,7 +529,7 @@ After the iterating algorithm is over, the electric field is calculated and the 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nim" id="org3ee85ff">
+<pre class="src src-nim" id="orgd2fbac7">
 <span style="color: #fb4933;">while</span> diff &gt; tolerance:
   <span style="color: #fb4933;">if</span> i &gt; <span style="font-style: italic;">15000</span>:
     <span style="color: #fe8019;">echo</span> <span style="color: #b8bb26;">"solution didn't converge; err = "</span> &amp; $diff
@@ -559,8 +558,8 @@ field.toFile(<span style="color: #b8bb26;">"ending"</span>)
 </div>
 </div>
 
-<div id="outline-container-orgfcd00be" class="outline-2">
-<h2 id="orgfcd00be"><span class="section-number-2">5.</span> Putting the code together</h2>
+<div id="outline-container-org3ba9432" class="outline-2">
+<h2 id="org3ba9432"><span class="section-number-2">5.</span> Putting the code together</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-nim"><span class="linenr">  1: </span>
@@ -679,31 +678,33 @@ field.toFile(<span style="color: #b8bb26;">"ending"</span>)
 </div>
 </div>
 
-<div id="outline-container-orgab6b1d8" class="outline-2">
-<h2 id="orgab6b1d8"><span class="section-number-2">6.</span> Plotting</h2>
+<div id="outline-container-org1814d0d" class="outline-2">
+<h2 id="org1814d0d"><span class="section-number-2">6.</span> Plotting</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Using Gnuplot to plot the potential and the electric field
 </p>
 <div class="org-src-container">
-<pre class="src src-gnuplot" id="orgabd9850"><span style="color: #d3869b;">set</span> terminal png size 1200,900 enhanced
-<span style="color: #d3869b;">set</span> output <span style="color: #b8bb26;">'potential.png'</span>
+<pre class="src src-gnuplot" id="org210aca7"><span style="color: #d3869b;">set</span> terminal svg size 900,1200
+<span style="color: #d3869b;">set</span> output <span style="color: #b8bb26;">'potential.svg'</span>
 
 <span style="color: #d3869b;">set</span> <span style="color: #fabd2f;">pm3d</span> at bs
 <span style="color: #d3869b;">set</span> hidden3d
 <span style="color: #d3869b;">set</span> size ratio 1
 
-<span style="color: #d3869b;">set</span> multiplot layout 1,2
+<span style="color: #d3869b;">set</span> multiplot layout 2,1
+<span style="color: #d3869b;">set</span> nokey 
 
 <span style="color: #fb4933;">splot</span> <span style="color: #b8bb26;">'ending.dat'</span> <span style="color: #d3869b;">matrix</span> <span style="color: #d3869b;">with</span> p
 <span style="color: #fb4933;">plot</span> <span style="color: #b8bb26;">'ending_e.dat'</span> <span style="color: #d3869b;">using</span> 1:2:3:4:5 <span style="color: #d3869b;">with</span> <span style="color: #fabd2f;">vectors</span> lc palette
-<span style="color: #d3869b;">reset</span> <span style="color: #7c6f64;">#</span><span style="color: #7c6f64;">workaround for babel tangle, ignore</span>
+
+<span style="color: #d3869b;">unset</span> multiplot
 </pre>
 </div>
 
 
-<div id="org24045b2" class="figure">
-<p><img src="potential.png" alt="potential.png" />
+<div id="orgd789d07" class="figure">
+<p><img src="potential.svg" alt="potential.svg" class="org-svg" />
 </p>
 </div>
 </div>
@@ -711,7 +712,7 @@ Using Gnuplot to plot the potential and the electric field
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Duskhorn</p>
-<p class="date">Created: 2024-02-19 Mon 18:25</p>
+<p class="date">Created: 2024-02-21 Wed 09:44</p>
 </div>
 </body>
 </html>
